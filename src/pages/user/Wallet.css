@@ -1,0 +1,50 @@
+.wallet-page-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+    background-color: #a2e59e;
+    margin-top: 60px;
+    border-radius: 2rem;
+  }
+  
+  .left-container {
+    flex: 0 0 40%;
+    margin-right: 20px;
+    background-color: #a2e59e;
+    padding: 20px;
+  }
+  
+  .right-container {
+    flex: 0 0 50%;
+    background-color: #a2e59e;
+    padding: 20px;
+  }
+  
+  .balance {
+    font-size: 24px;
+    margin-top: 40px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .wallet-page-container {
+      flex-direction: column;
+      padding: 10px;
+    }
+  
+    .left-container,
+    .right-container {
+      flex: 0 0 100%;
+      margin-right: 0;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+  
+    .balance {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  }
+  

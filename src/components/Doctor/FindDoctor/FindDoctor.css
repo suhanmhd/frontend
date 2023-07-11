@@ -1,0 +1,92 @@
+.container-fluid{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    /* background-color: aquamarine; */
+}
+.find-doctor{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 1000px;
+    width: 80%;
+}
+
+.banner-writing{
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 100%;
+    /* background: rgb(2,0,36); */
+    /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(25,74,133,1) 0%, rgba(0,212,255,0.560749299719888) 89%); */
+    justify-content: space-evenly;
+    color: rgb(78, 78, 78);
+}
+
+.heading{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 40px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.image{
+    margin-top: 50px;
+    width: 100%;
+}
+
+.span{
+    color: rgb(212, 4, 4);
+}
+
+.content-container{
+    display: flex;
+    justify-content: center;
+}
+
+.content{
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.faq{
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.ans{
+    font-size: 20px;
+}
+
+.doc-categories-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background: red; */
+}
+
+.doc-categories{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    width: 30%;
+    height: 100px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 0.8rem;
+}
+
+.doc-categories:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,27 @@
+.chatBookedDoctor{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.chatBookedImgContainer{
+    position: relative;
+    margin-right: 10px;
+}
+
+.chatBookedImg{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid white;
+}
+
+.chatBookedBadge{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: absolute;
+}

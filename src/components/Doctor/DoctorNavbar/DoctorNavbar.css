@@ -1,0 +1,13 @@
+.navbar1{
+    display: flex;
+
+}
+
+.navbar-text{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    background: red;
+    
+}

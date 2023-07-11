@@ -1,0 +1,89 @@
+.doc-booking-container{
+    background-color: rgba(143, 143, 143, 0.342);
+    height: 600px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.doc-booking-main{
+    display: flex;
+    flex-direction: row;
+    /* background-color: blueviolet; */
+    height: 90%;
+    width: 80%;
+}
+
+.doc-dp{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    /* background-color: rgb(255, 255, 255); */
+    width: 220px;
+    height: 100%;
+}
+
+.doc-details-main{
+    /* background-color: brown; */
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.doc-details{
+    padding: 80px;
+    width: 100%;
+    height: 450px;
+    /* background-color: gray; */
+    font-family: ProximaNovaFont ;
+}
+
+.doc-check-availability{
+    /* background-color: green; */
+    display: flex;
+    flex-direction: row;
+    /* justify-content: space-evenly;; */
+    align-items: flex-start;
+    /* padding-left: 5px; */
+    /* height: 15rem; */
+}
+
+.book-container{
+    padding-top: 60px;
+    width: 40rem;
+    /* background-color: orange; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.doc-name{
+    padding-bottom: 20px;
+}
+
+.doc-name1{
+    color: rgb(99, 23, 23);
+    font-family: sans-serif;
+    font-weight: bolder;
+}
+
+.time-picker{
+    padding-left: 10px;
+}
+
+.check-button{
+    width: 323px;
+}
+
+.book-button{
+    width: 323px;
+}
+
+
+/* Doctor Profile  */
+.card-body {
+    padding: 1.5rem;
+}
+

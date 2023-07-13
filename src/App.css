@@ -1,3 +1,10 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 :root {
     --yellow: linear-gradient(180deg, #F8D49A -146.42%, #FAD79D -46.42%);
     --orange: #fca61f;
@@ -10,6 +17,9 @@
     --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
     --activeItem: #f799a354;
   }
+
+
+
 
   /* .App{
     background: linear-gradient(

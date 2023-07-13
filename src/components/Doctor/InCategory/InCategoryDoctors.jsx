@@ -13,8 +13,9 @@ const InCategoryDoctors = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = JSON.parse(localStorage.getItem("user")).token;
       // const token = localStorage.getItem("user");
-      const data = await getDoctorByCategory(departmentName);
+      const data = await getDoctorByCategory(token,departmentName);
       setInCatDoc(data.doctorDetails);
     };
     fetchData();

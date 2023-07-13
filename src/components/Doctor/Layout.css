@@ -1,6 +1,6 @@
 .main1{
     padding: 10px;
-    height: 100vh;
+    height: auto;
 }
 
 .layout1{
@@ -88,4 +88,11 @@
     color: rgb(0, 0, 0);
     margin: 0 10px;
     text-transform: uppercase;
+}
+
+.imgDiv{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: aqua;
 }

@@ -8,7 +8,10 @@ export const getUserInfo = async (token) => {
       "Content-Type": "application/json",
     },
   };
+  // console.log("before sednign requeest");
   const { data } = await axiosAdminInstance.get("/users", config);
+  // console.log("IN admin service fetch users");
+  // console.log(data);
   if (data) {
     return data;
   }
@@ -22,6 +25,7 @@ export const blockUser = async (token, userId) => {
       "Content-Type": "application/json",
     },
   };
+  console.log("request blocking");
   const { data } = await axiosAdminInstance.get(`/blockUser/${userId}`, config);
   if (data) {
     return data;
@@ -36,12 +40,12 @@ export const unblockUser = async (token, userId) => {
       "Content-Type": "application/json",
     },
   };
+  console.log("request unblocking");
   const { data } = await axiosAdminInstance.get(
     `/unblockUser/${userId}`,
     config
   );
   if (data) {
-    console.log(data)
     return data;
   }
 };
@@ -54,7 +58,10 @@ export const getDoctorInfo = async (token) => {
       "Content-Type": "application/json",
     },
   };
+  // console.log("before sednign requeest");
   const { data } = await axiosAdminInstance.get("/doctors", config);
+  // console.log("IN admin service fetch doctors");
+  // console.log(data);
   if (data) {
     return data;
   }

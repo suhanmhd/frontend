@@ -1,46 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
-import { blockDoctor, getDoctorInfo, unblockDoctor } from '../../../axios/services/AdminServices'
+import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import {
+  blockDoctor,
+  getDoctorInfo,
+  unblockDoctor,
+} from "../../../axios/services/AdminServices";
 
 const DoctorInfo = () => {
-  const [details, setDetails] = useState([])
+  const [details, setDetails] = useState([]);
   const token = JSON.parse(localStorage.getItem("admin")).token;
-  console.log(details);
+
   const fetchData = async () => {
-    const data = await getDoctorInfo(token)
-    setDetails(data.doctorDetails)
-  }
+    const data = await getDoctorInfo(token);
+    setDetails(data.doctorDetails);
+  };
 
- 
-  const block = async(doctorId) => {
-    const data = await blockDoctor(token, doctorId)
-    if(data){
-      fetchData();
-      fetchData();
-      fetchData();
-      fetchData();
-  
+  const block = async (doctorId) => {
+    const data = await blockDoctor(token, doctorId);
+    if (data) {
+      setDetails(data.doctorDetails)
     }
-  }
+  };
 
+  const unblock = async (doctorId) => {
+    const data = await unblockDoctor(token, doctorId);
+    if (data) {
+      setDetails(data.doctorDetails)
 
-  const unblock = async(doctorId) => {
-    const data = await unblockDoctor(token, doctorId)
-    if(data){
-      
-      fetchData();
-      fetchData();
-      fetchData();
-      fetchData();
-     
+      // fetchData();
     }
-  }
+  };
   useEffect(() => {
-    fetchData(); 
     fetchData();
-    fetchData();   
-  }, [])
-
+  }, []);
 
   const columns = [
     {
@@ -81,7 +73,7 @@ const DoctorInfo = () => {
         return (
           <div>
             {" "}
-            {row.enabled? (
+            {row.enabled ? (
               <button
                 className="btn btn-success"
                 onClick={() => unblock(row.id)}
@@ -89,9 +81,7 @@ const DoctorInfo = () => {
                 UNBLOCK
               </button>
             ) : (
-              <button className="btn btn-danger"
-               onClick={() => block(row.id)}
-              >
+              <button className="btn btn-danger" onClick={() => block(row.id)}>
                 Block
               </button>
             )}
@@ -117,7 +107,7 @@ const DoctorInfo = () => {
         pagination
       />
     </div>
-    )
-}
+  );
+};
 
-export default DoctorInfo
+export default DoctorInfo;

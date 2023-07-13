@@ -1,11 +1,11 @@
 import { axiosDoctorInstance, axiosUserInstance,axiosBookingInstance } from "../axios";
 
-export const getDoctorByCategory = async (departmentName) => {
+export const getDoctorByCategory = async (token,departmentName) => {
   console.log(departmentName);
     const config = {
       headers: {
         Accept: "application/json",
-        Authorization: "Bearer ",
+        Authorization: "Bearer "+ token,
         "Content-Type": "application/json",
       },
     };

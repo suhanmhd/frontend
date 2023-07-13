@@ -24,6 +24,7 @@ import moment from "moment";
 
 
 const DoctorProfile = () => {
+  const [imgstate, setImgstate] = useState(null)
   const [formValue, setFormValue] = useState({});
   const {
     firstname,
@@ -86,11 +87,17 @@ const DoctorProfile = () => {
     setFormValue({ ...formValue, [name]: value });
     console.log(formValue);
   };
+  console.log(imgstate);
 
   return (
     <Layout>
       <div className="p-2">
         <h1>MANAGE YOUR PROFILE</h1>
+      
+        <div className="imgDiv">
+            <img src="" alt=""/>
+        </div>
+        <input type="file" onChange={(e)=>setImgstate(e.target.files[0])}/>
       </div>
       {doctor && (
         <>
@@ -268,7 +275,7 @@ const DoctorProfile = () => {
         </>
       )}
 
-    <div className="card">
+    {/* <div className="card">
     <div class="card-body">
         <h4 class="card-title">Schedule Timings</h4>
         <div class="profile-box">
@@ -517,7 +524,8 @@ const DoctorProfile = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> */}
+
     </Layout>
   );
 };

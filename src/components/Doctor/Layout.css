@@ -47,27 +47,28 @@
 }
 
 .menu-item1{
-    margin-top: 30px;
+
 }
 
 .menu-item1 a{
-    color: white;
+    color:rgba(87, 87, 87, 0.822) ;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 16px;
 }
 
 .menu-item1 i{
-    font-size: 1.2rem;
+    color:rgba(87, 87, 87, 0.822) ;
+    font-size: 16px;
     margin: 0 15px;
 }
 
 .active1{
-    background-color: white;
-    padding: 10px;
+   
 }
 
 .active1 a, .active1 i {
-    color: rgb(105, 96, 96);
+    color: rgb(59, 211, 211);
+    font-weight: 600;
 }
 
 .header-content1{
@@ -90,9 +91,22 @@
     text-transform: uppercase;
 }
 
+<<<<<<< HEAD
 .imgDiv{
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background-color: aqua;
 }
+=======
+
+.hide-scrollbar::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+  
+  .hide-scrollbar {
+    overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
+  }
+>>>>>>> 60899bfabcde369bfd93061213ec021234604bc4

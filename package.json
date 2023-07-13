@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@heroicons/react": "^2.0.18",
     "@iconscout/react-unicons": "^1.1.6",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
@@ -65,6 +66,8 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.2.4"
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.25",
+    "tailwindcss": "^3.3.2"
   }
 }

@@ -30,6 +30,7 @@ export const getDoctorByCategory = async (token,departmentName) => {
   };
 
   export const updateDoctorProfile = async ( formData, token ) => {
+    console.log(formData);
     const config = {
       headers: {
         Accept: "application/json",

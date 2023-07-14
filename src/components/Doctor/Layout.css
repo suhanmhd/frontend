@@ -91,14 +91,12 @@
     text-transform: uppercase;
 }
 
-<<<<<<< HEAD
 .imgDiv{
     width: 70px;
     height: 70px;
     border-radius: 50%;
     background-color: aqua;
 }
-=======
 
 .hide-scrollbar::-webkit-scrollbar {
     width: 0;
@@ -109,4 +107,3 @@
     overflow: -moz-scrollbars-none;
     scrollbar-width: none;
   }
->>>>>>> 60899bfabcde369bfd93061213ec021234604bc4

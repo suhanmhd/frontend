@@ -20,22 +20,26 @@ import {
 import { toast } from "react-toastify";
 import { TimePicker } from "antd";
 import moment from "moment";
+import { storage } from "../../firebaseConfig";
 
 
 
 const DoctorProfile = () => {
   const [imgstate, setImgstate] = useState(null)
+  const [urlLink, setLink] = useState('');
   const [formValue, setFormValue] = useState({});
+
+  console.log(urlLink);
+
+  
   const {
     firstname,
     lastname,
-    // specialization,
     email,
-    // password,
-    // confirmPassword,
     experience,
     timings,
     feesPerConsultation,
+    image
   } = formValue;
 
   const timing = timings && [
@@ -65,22 +69,22 @@ const DoctorProfile = () => {
 
   timings && console.log(timings);
 
-  //   const time = timings && {
-  //     timings: [
-  //       moment(timings[0]).format("HH:mm"),
-  //       moment(timings[1]).format("HH:mm"),
-  //     ],
-  //   };
+ 
 
-  //   console.log(time)
-  //   console.log('time above')
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateDoctorProfile({ ...formValue }, token);
+    storage.ref('/images/'+imgstate.name).put(imgstate)
+    .then(({ref})=>{
+      ref.getDownloadURL().then(async(url)=>{
+      console.log(url);
+      
+              updateDoctorProfile({ ...formValue,image:url }, token);
     navigate("/doctorHome");
     toast.success("Profile updated");
-  };
+      })
+   
+  });
+}
 
   const onInputChange = (e) => {
     let { name, value } = e.target;
@@ -89,15 +93,18 @@ const DoctorProfile = () => {
   };
   console.log(imgstate);
 
+
   return (
     <Layout>
       <div className="p-2">
         <h1>MANAGE YOUR PROFILE</h1>
       
         <div className="imgDiv">
-            <img src="" alt=""/>
+            <img src={image} alt=""/>
         </div>
-        <input type="file" onChange={(e)=>setImgstate(e.target.files[0])}/>
+        <input type="file" 
+        name="image"
+        onChange={(e)=>setImgstate(e.target.files[0])}/>
       </div>
       {doctor && (
         <>

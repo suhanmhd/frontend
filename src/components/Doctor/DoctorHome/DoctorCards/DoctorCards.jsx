@@ -18,11 +18,12 @@ const DoctorCards = () => {
     setDashDetails(doctorDashDetails);
   };
 
-  console.log(dashDetails);
+  // console.log(dashDetails);
 
   useEffect(() => {
     fetchData();
   }, []);
+  
   return (
     <div className="Cards">
       {/* {CardsData.map((card, id) => { */}

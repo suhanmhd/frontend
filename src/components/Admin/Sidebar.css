@@ -60,11 +60,11 @@
 }
 
 .active::before{
-    content: '';
+    /* content: '';
     width: 8px;
     height: 100%;
     background: var(--pink);
-    margin-right: calc(1rem - 8px);
+    margin-right: calc(1rem - 8px); */
 }
 
 .menu .menuItem:last-child{

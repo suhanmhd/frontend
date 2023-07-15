@@ -1,9 +1,4 @@
-.container-fluid{
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    /* background-color: aquamarine; */
-}
+
 .find-doctor{
     display: flex;
     flex-direction: column;
@@ -48,13 +43,6 @@
     justify-content: center;
 }
 
-.content{
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
 
 .faq{
     display: flex;

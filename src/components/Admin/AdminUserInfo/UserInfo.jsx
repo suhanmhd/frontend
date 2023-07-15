@@ -6,36 +6,34 @@ const UserInfo = () => {
   const [details, setDetails] = useState([]);
   const token = JSON.parse(localStorage.getItem("admin")).token;
 
-  console.log(details);
-
   const fetchData = async () => {
     const data = await getUserInfo(token);
+    console.log(data.userDetails);
+    
     setDetails(data.userDetails);
-    // console.log(data.userDetails);
+    console.log(data.userDetails);
   };
 
   const block = async (userId) => {
     const data = await blockUser(token, userId);
+    console.log(data);
     if (data) {
-      fetchData();
-      fetchData();
+    
+  
       fetchData();
     }
   };
 
   const unblock = async (userId) => {
     const data = await unblockUser(token, userId);
+    console.log(data.userDetails);
     if (data) {
-      fetchData();
-      fetchData();
       fetchData();
       // setDetails(data.userDetails);
     }
   };
 
   useEffect(() => {
-    fetchData();
-    fetchData();
     fetchData();
   }, []);
 
@@ -47,6 +45,10 @@ const UserInfo = () => {
     {
       name: "Email",
       selector: (row) => row.email,
+    },
+    {
+      name: "id",
+      selector: (row) => row.id,
     },
     {
       name: "Gender",
@@ -73,7 +75,7 @@ const UserInfo = () => {
         return (
           <div>
             {" "}
-            {row.enabled ? (
+            {!row.enabled ? (
               <button
                 className="btn btn-success"
                 onClick={() => unblock(row.id)}

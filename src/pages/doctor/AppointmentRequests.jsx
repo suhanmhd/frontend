@@ -28,9 +28,7 @@ const AppointmentRequests = () => {
   };
   console.log(todays);
   useEffect(() => {
-    fetchData();
-    fetchData();
-    fetchData();
+ 
     fetchData();
   }, []);
 

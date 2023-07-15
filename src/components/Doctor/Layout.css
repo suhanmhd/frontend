@@ -1,6 +1,6 @@
 .main1{
     padding: 10px;
-    height: 100vh;
+    height: auto;
 }
 
 .layout1{
@@ -91,6 +91,12 @@
     text-transform: uppercase;
 }
 
+.imgDiv{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: aqua;
+}
 
 .hide-scrollbar::-webkit-scrollbar {
     width: 0;

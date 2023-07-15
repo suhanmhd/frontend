@@ -14,13 +14,15 @@ import {
   updateUserProfile,
 } from "../../axios/services/HomeServices";
 import Navbar from "../../components/Navbar";
+import { storage } from "../../firebaseConfig";
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const [imgstate, setImgstate] = useState(null)
   const [formValue, setFormValue] = useState([]);
   const user = localStorage.getItem("user");
 
-  const { firstname, lastname, email, gender, age } = formValue;
+  const { firstname, lastname, email, gender, age, image } = formValue;
 
   const userId = JSON.parse(localStorage.getItem("user")).userExists?.id;
   const token = JSON.parse(localStorage.getItem("user")).token;
@@ -34,12 +36,26 @@ const UserProfile = () => {
     fetchData();
   }, [userId, token]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({...formValue});
-    updateUserProfile({ ...formValue }, token);
+  const handleSubmit = (e) => {e.preventDefault();
+    storage.ref('/images/'+imgstate.name).put(imgstate)
+    .then(({ref})=>{
+      ref.getDownloadURL().then(async(url)=>{
+      console.log(url);
+      
+      updateUserProfile({ ...formValue,image:url }, token);
     navigate("/");
     toast.success("Profile updated");
+      })
+   
+  });
+
+
+    
+    // e.preventDefault();
+    // console.log({...formValue});
+    // updateUserProfile({ ...formValue }, token);
+    // navigate("/");
+    // toast.success("Profile updated");
   };
 
   const onInputChange = (e) => {
@@ -49,7 +65,10 @@ const UserProfile = () => {
   };
 
   return (
+    
     <>
+   
+      
       <Navbar />
       <div
         className="heading"
@@ -57,6 +76,7 @@ const UserProfile = () => {
       >
         <h2>YOUR PROFILE</h2>
       </div>
+      
       {user && (
         <div
           style={{
@@ -67,6 +87,18 @@ const UserProfile = () => {
             marginTop: "50px",
           }}
         >
+
+<div className="p-2">
+        <h1>MANAGE YOUR PROFILE</h1>
+      
+        <div className="imgDiv">
+            <img src={image} alt=""/>
+        </div>
+        <input type="file" 
+        name="image"
+        onChange={(e)=>setImgstate(e.target.files[0])}
+        />
+      </div>
           <MDBCard alignment="left">
             {/* <MDBIcon fas icon="user-circle" className="fa-5x" /> */}
             <MDBCardBody>

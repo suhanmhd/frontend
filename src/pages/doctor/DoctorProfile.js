@@ -20,6 +20,7 @@ import {
 import { toast } from "react-toastify";
 import { TimePicker } from "antd";
 import moment from "moment";
+import { storage } from "../../firebaseConfig";
 
 // const doctorProfile = {
 //   id: "c7ba1801-9803-4283-b0ad-e470bfd16130",
@@ -37,20 +38,27 @@ import moment from "moment";
 // };
 
 const DoctorProfile = () => {
+  const [imgstate, setImgstate] = useState(null)
+  const [urlLink, setLink] = useState('');
   const [formValue, setFormValue] = useState({});
+<<<<<<< HEAD
   // useState(doctorProfile)
   
 
+=======
+
+  console.log(urlLink);
+
+  
+>>>>>>> a12d5e42c9eacbdec7f7295fe7fd47946614defe
   const {
     firstname,
     lastname,
-    // specialization,
     email,
-    // password,
-    // confirmPassword,
     experience,
     timings,
     feesPerConsultation,
+    image
   } = formValue;
 
   console.log(formValue)
@@ -87,29 +95,36 @@ const DoctorProfile = () => {
 
   timings && console.log(timings);
 
-  //   const time = timings && {
-  //     timings: [
-  //       moment(timings[0]).format("HH:mm"),
-  //       moment(timings[1]).format("HH:mm"),
-  //     ],
-  //   };
+ 
 
-  //   console.log(time)
-  //   console.log('time above')
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     updateDoctorProfile({ ...formValue }, token);
     // updateDoctorProfile({ ...formValue });
     // navigate("/doctorHome");
+=======
+    storage.ref('/images/'+imgstate.name).put(imgstate)
+    .then(({ref})=>{
+      ref.getDownloadURL().then(async(url)=>{
+      console.log(url);
+      
+              updateDoctorProfile({ ...formValue,image:url }, token);
+    navigate("/doctorHome");
+>>>>>>> a12d5e42c9eacbdec7f7295fe7fd47946614defe
     toast.success("Profile updated");
-  };
+      })
+   
+  });
+}
 
   const onInputChange = (e) => {
     let { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
     console.log(formValue);
   };
+  console.log(imgstate);
+
 
   return (
     <Layout>
@@ -117,6 +132,13 @@ const DoctorProfile = () => {
 
       <div className="p-2">
         <h1>MANAGE YOUR PROFILE</h1>
+      
+        <div className="imgDiv">
+            <img src={image} alt=""/>
+        </div>
+        <input type="file" 
+        name="image"
+        onChange={(e)=>setImgstate(e.target.files[0])}/>
       </div>
       {doctor && (
         <>
@@ -279,6 +301,7 @@ const DoctorProfile = () => {
         </>
       )}
 
+<<<<<<< HEAD
       <div className="card">
         <div class="card-body">
           <h4 class="card-title">Schedule Timings</h4>
@@ -295,6 +318,23 @@ const DoctorProfile = () => {
                     <option>1 Hour</option>
                   </select>
                 </div>
+=======
+    {/* <div className="card">
+    <div class="card-body">
+        <h4 class="card-title">Schedule Timings</h4>
+        <div class="profile-box">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-3">
+                <label class="durations">Timing Slot Duration</label>
+                <select class="form-select form-control">
+                  <option>-</option>
+                  <option>15 mins</option>
+                  <option selected="selected">30 mins</option>
+                  <option>45 mins</option>
+                  <option>1 Hour</option>
+                </select>
+>>>>>>> a12d5e42c9eacbdec7f7295fe7fd47946614defe
               </div>
             </div>
             <div class="row">
@@ -541,6 +581,10 @@ const DoctorProfile = () => {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+    </div> */}
+>>>>>>> a12d5e42c9eacbdec7f7295fe7fd47946614defe
 
     </Layout>
   );

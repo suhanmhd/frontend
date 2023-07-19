@@ -303,11 +303,16 @@
 
 // export default SheduleTimings;
 
+
+
+
+
 import React from "react";
 import Layout from "../../components/Doctor/Layout";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { addDoctorScheduledTimes } from "../../axios/services/DoctorServices";
+
 
 const daysOfWeek = [
   "Sunday",
@@ -318,6 +323,7 @@ const daysOfWeek = [
   "Friday",
   "Saturday",
 ];
+
 
 const scheduleData = {
   doctor_id: "12345",
@@ -333,6 +339,7 @@ const scheduleData = {
   ],
 };
 
+
 const SheduleTimings = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(null);
@@ -340,8 +347,10 @@ const SheduleTimings = () => {
   const [timing, setTiming] = useState("");
 
 
-  const token = JSON.parse(localStorage.getItem("doctor")).token;
-  const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists.id;
+  // const token = JSON.parse(localStorage.getItem("doctor")).token;
+  const token = "123";
+  // const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists.id;
+  const docId = "123";
 
   const handleDayClick = (day) => {
     setSelectedDay(day);

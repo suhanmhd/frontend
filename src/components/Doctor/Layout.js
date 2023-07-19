@@ -346,6 +346,7 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
                       alt="User Image"
                     />
                   </a>
+
                   <div class="profile-det-info">
                     <h3 className="text-slate-700 ms-3">
                       Dr.Muhammad Suhan
@@ -359,8 +360,10 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
                       </h5>
                     </div>
                   </div>
+
                 </div>
               </div>
+              
               <div class="dashboard-widget">
                 <nav class="dashboard-menu">
                   {DoctorSidebarData.map((menu) => {

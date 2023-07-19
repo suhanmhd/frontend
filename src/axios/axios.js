@@ -49,7 +49,7 @@ export const axiosMessageInstance = axios.create({
   baseURL: 'https://click-n-visit.onrender.com/message',
 });
 export const axiosConversationInstance = axios.create({
-  baseURL: 'https://click-n-visit.onrender.com/conversation',
+  baseURL: 'http://localhost:9090/appointment',
 });
 
 

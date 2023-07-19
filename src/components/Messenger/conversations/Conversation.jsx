@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { getDoctorProfile } from '../../../axios/services/DoctorServices'
+
 import './Conversation.css'
 
 const Conversation = ({conversation, currentUser}) => {
+  console.log(conversation)
 
   const [doctor, setDoctor] = useState(null)
 
   useEffect(() => {
-    const docId = conversation.members.find((m) => m !== currentUser._id)
+    const docId = conversation.members.find((m) => m !== currentUser.id)
     
     const getDoctor = async () => {
       const token = localStorage.getItem('user')
@@ -15,7 +17,7 @@ const Conversation = ({conversation, currentUser}) => {
       setDoctor(res.doctorProfile)
     }
     getDoctor();
-  }, [ conversation])
+  }, [ conversation.conversationId])
   
   return (
     <div className="conversation">

@@ -179,3 +179,31 @@ if(data.status){
       return data
     }
   }
+  // export const getDoctorScheduledTimes= async(token,docId)=>{
+  //   const config = {
+  //     headers: {
+  //       Accept: "application/json",
+  //       Authorization: "Bearer " + token,
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //     const { data } = await axiosDoctorInstance.get(`/getMyPaidAppointments/${docId}`, config)
+  //     if(data){
+  //       return data
+  //     }
+  //   };
+
+  export const addDoctorScheduledTimes= async(token,scheduleData)=>{
+    const config = {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    };
+    console.log(scheduleData)
+      const { data } = await axiosDoctorInstance.post(`/addBookingSlot`,scheduleData, config)
+      if(data){
+        return data
+      }
+    };

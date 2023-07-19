@@ -23,6 +23,7 @@
     "jspdf-autotable": "^3.5.28",
     "mdb-react-ui-kit": "^5.1.0",
     "moment": "^2.29.4",
+    "net": "^1.0.2",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-chartjs-2": "^5.2.0",
@@ -37,6 +38,8 @@
     "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.1",
     "socket.io-client": "^4.6.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "styled-components": "^5.3.6",
     "timeago.js": "^4.0.2",
     "web-vitals": "^3.1.1"

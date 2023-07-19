@@ -1,16 +1,18 @@
-import { axiosConversationInstance } from "../axios"
+
+import {axiosConversationInstance, axiosDoctorInstance } from "../axios";
 
 
 export const getConversations = async (userId) => {
     const {data} = await axiosConversationInstance.get(`/getConvo/${userId}`)
-    if(data.status){
+    if(data){
+        console.log(data);
         return data;
     }
 }
 
 export const getBookedDoctors = async (userId) => {
     const {data} = await axiosConversationInstance.get(`/getBookedDoctors/${userId}`)
-    if(data.status){
+    if(data){
         return data;
     }
 }
@@ -28,3 +30,19 @@ export const newConversation = async (firstUser, secondUser) => {
         return data;
     }
 }
+
+
+export const getDoctor = async (token, docId) => {
+    // const config = {
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: "Bearer " + token,
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    const { data } = await axiosDoctorInstance.get(`/getDoctor/${docId}`);
+    if (data) {
+        console.log(data);
+      return data;
+    }
+  };

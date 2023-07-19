@@ -9,6 +9,8 @@ const DoctorHome = () => {
   const token = JSON.parse(localStorage.getItem("doctor"))?.token;
   const docId = JSON.parse(localStorage.getItem("doctor"))?.doctorExists?._id;
 
+  console.log("this is from doctorHome :"+token,docId)
+
   const fetchData = async () => {
     const data = await getMyPaidAppointments(token, docId);
     setPaidAppointments(data.paidAppointments);

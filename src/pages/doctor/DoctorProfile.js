@@ -45,6 +45,7 @@ const DoctorProfile = () => {
   const [imgstate, setImgstate] = useState(null);
   const [urlLink, setLink] = useState("");
   const [formValue, setFormValue] = useState({});
+
   // useState(doctorProfile)
 
   console.log(urlLink);
@@ -61,6 +62,7 @@ const DoctorProfile = () => {
     image,
   } = formValue;
 
+  console.log("form value :");
   console.log(formValue);
 
   const timing = timings && [
@@ -70,6 +72,7 @@ const DoctorProfile = () => {
   // const {doctor} = useSelector((state) => (state.doctor))
   const navigate = useNavigate();
   const doctor = JSON.parse(localStorage.getItem("doctor"));
+  console.log(doctor);
 
   // const doctor = doctorProfile; // not need
 
@@ -87,11 +90,14 @@ const DoctorProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getDoctorProfile(token, docId);
+      console.log(data.doctorProfile);
       // const data = doctorProfile;
-      setFormValue(data);
+      setFormValue(data.doctorProfile);
     };
     fetchData();
-  }, []);
+  }, [docId, token]);
+
+
 
   timings && console.log(timings);
 
@@ -100,6 +106,7 @@ const DoctorProfile = () => {
     updateDoctorProfile({ ...formValue }, token);
     // updateDoctorProfile({ ...formValue });
     // navigate("/doctorHome");
+    toast.success("Profile updated");
     storage
       .ref("/images/" + imgstate.name)
       .put(imgstate)
@@ -108,11 +115,14 @@ const DoctorProfile = () => {
           console.log(url);
           // updateDoctorProfile({ ...formValue });
 
+
           updateDoctorProfile({ ...formValue,image:url }, token);
-          navigate("/doctorHome");
-          toast.success("Profile updated");
+
+          // navigate(`/doctorProfile`);
+          // toast.success("Profile updated");
         });
       });
+      
   };
 
   const onInputChange = (e) => {
@@ -257,6 +267,7 @@ const DoctorProfile = () => {
         </div>
         <div class="submit-section submit-btn-bottom">
           <MDBBtn
+          onClick={handleSubmit}
             style={{ width: "100%" }}
             className="btn btn-primary submit-btn mt-2"
           >
@@ -281,7 +292,8 @@ const DoctorProfile = () => {
           name="image"
           onChange={(e) => setImgstate(e.target.files[0])}
         />
-      </div> */}
+      </div>  */}
+
 
     
     </Layout>

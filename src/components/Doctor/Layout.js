@@ -56,7 +56,7 @@ const Layout = ({ children }) => {
     },
     {
       name: "Profile",
-      path: `/doctorProfile/${doctor && doctor.id}`,
+      path: `/doctorProfile/${doctor && doctor.doctorExists.id}`,
       icon: "fa-solid fa-user",
     },
     {

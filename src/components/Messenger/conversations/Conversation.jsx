@@ -17,7 +17,7 @@ const Conversation = ({conversation, currentUser}) => {
       setDoctor(res.doctorProfile)
     }
     getDoctor();
-  }, [ conversation.conversationId])
+  }, [ conversation])
   
   return (
     <div className="conversation">

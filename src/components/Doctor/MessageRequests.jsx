@@ -21,17 +21,19 @@ const MessageRequests = () => {
   const doctor = JSON.parse(localStorage.getItem("doctor")).doctorExists;
   const scrollRef = useRef();
 
+  console.log(conversations);
+  
   useEffect(() => {
     // socket.current = io("ws://localhost:5000");
     // socket.current = io("https://click-n-visit.onrender.com");
     
-    socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
+    // socket.current.on("getMessage", (data) => {
+    //   setArrivalMessage({
+    //     sender: data.senderId,
+    //     text: data.text,
+    //     createdAt: Date.now(),
+    //   });
+    // });
   }, []);
 
   useEffect(() => {
@@ -40,16 +42,16 @@ const MessageRequests = () => {
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
 
-  useEffect(() => {
-    socket.current.emit("addUser", doctor._id);
-    socket.current.on("getUsers", (doctor) => {
-      // console.log(users)
-    });
-  }, [doctor]);
+  // useEffect(() => {
+  //   socket.current.emit("addUser", doctor.id);
+  //   socket.current.on("getUsers", (doctor) => {
+  //     // console.log(users)
+  //   });
+  // }, [doctor]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getConversations(doctor._id);
+      const data = await getConversations(doctor.id);
       setConversations(data.conversation);
     };
     fetchData();
@@ -57,7 +59,7 @@ const MessageRequests = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getMessages(currentChat?._id);
+      const data = await getMessages(currentChat?.conversationId);
       console.log(data);
       setMessages(data.messages);
     };
@@ -67,20 +69,20 @@ const MessageRequests = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      sender: doctor._id,
+      sender: doctor.id,
       text: newMessage,
-      conversationId: currentChat._id,
+      conversationId: currentChat.conversationId,
     };
 
     const receiverId = currentChat.members.find(
-      (member) => member !== doctor._id
+      (member) => member !== doctor.id
     );
 
-    socket.current.emit("sendMessage", {
-      senderId: doctor._id,
-      receiverId,
-      text: newMessage,
-    });
+    // socket.current.emit("sendMessage", {
+    //   senderId: doctor.id,
+    //   receiverId,
+    //   text: newMessage,
+    // });
     const res = await sendNewMessage(message);
     setMessages([...messages, res.savedMessage]);
     setNewMessage("");
@@ -113,7 +115,7 @@ const MessageRequests = () => {
                 <div className="chatBoxTop">
                   {messages.map((msg) => (
                     <div ref={scrollRef}>
-                      <Message message={msg} own={msg.sender === doctor._id} />
+                      <Message message={msg} own={msg.sender === doctor.id} />
                     </div>
                   ))}
                 </div>

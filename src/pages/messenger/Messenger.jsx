@@ -162,6 +162,7 @@ import { getConversations, findConvo, newConversation } from "../../axios/servic
 import { getMessages, sendNewMessage } from "../../axios/services/MessageServices";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import UserChat from "./UserChat";
 
 const Messenger = () => {
   const [conversations, setConversations] = useState([]);
@@ -173,6 +174,8 @@ const Messenger = () => {
   const socket = useRef();
   const user = JSON.parse(localStorage.getItem("user")).userExists;
   const scrollRef = useRef();
+
+  console.log(messages);
 
   useEffect(() => {
     socket.current = new SockJS("http://localhost:8088/ws");
@@ -229,7 +232,8 @@ const Messenger = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (currentChat) {
-        const data = await getMessages(currentChat.id);
+        const data = await getMessages(currentChat.conversationId);
+        console.log(data);
         setMessages(data.messages);
       }
     };
@@ -289,6 +293,9 @@ const Messenger = () => {
       }
     }
   };
+
+ 
+
 
   return (
     <>

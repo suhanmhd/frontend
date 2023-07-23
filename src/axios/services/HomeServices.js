@@ -142,7 +142,7 @@ export const getUserProfile = async (token, userId) => {
       },
     };
 
-    const { data } = await axiosUserInstance.get(`/getUserProfile/${userId}`, config );
+    const { data } = await axiosUserInstance.get(`/getUserProfile/${userId}`);
     if (data) {
       return data;
     }

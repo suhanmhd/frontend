@@ -233,8 +233,8 @@ const Messenger = () => {
     const fetchData = async () => {
       if (currentChat) {
         const data = await getMessages(currentChat.conversationId);
-        console.log(data);
-        setMessages(data.messages);
+        console.log(data[0].text);
+        setMessages(data.message);
       }
     };
     fetchData();
@@ -242,12 +242,13 @@ const Messenger = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user.id);
 
     if(newMessage===""){
       return
     }
     const message = {
-      sender: user.id,
+      senderId: user.id,
       text: newMessage,
       conversationId: currentChat.conversationId,
     };
@@ -256,6 +257,7 @@ const Messenger = () => {
       (member) => member !== user.id
     );
 
+    
     socket.current.send(
       JSON.stringify({
         type: "SEND_MESSAGE",

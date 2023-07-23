@@ -46,7 +46,7 @@ export const axiosBookingInstance = axios.create({
 //   baseURL: 'https://click-n-visit.onrender.com/doctor',
 // });
 export const axiosMessageInstance = axios.create({
-  baseURL: 'https://click-n-visit.onrender.com/message',
+  baseURL: 'http://localhost:9090/appointment',
 });
 export const axiosConversationInstance = axios.create({
   baseURL: 'http://localhost:9090/appointment',

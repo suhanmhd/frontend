@@ -5,7 +5,8 @@ import '../../components/Messenger/conversations/Conversation'
 const DoctorConvo = ({conversation, currentUser}) => {
 
     const [user, setUser] = useState(null)
-
+    
+    console.log(user)
     useEffect(() => {
       const userId = conversation.members.find((m) => m !== currentUser.id)
       
@@ -17,7 +18,6 @@ const DoctorConvo = ({conversation, currentUser}) => {
       getUser();
     }, [currentUser, conversation])
     
-    console.log(user)
     return (
       <div className="conversation">
           <img className='conversationImg' src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="profile-pic" srcset="" />

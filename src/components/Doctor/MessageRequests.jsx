@@ -9,7 +9,7 @@ import {
 } from "../../axios/services/MessageServices";
 import { io } from "socket.io-client";
 import DoctorConvo from "./DoctorConvo";
-import { message } from "antd";
+// import { message } from "antd";
 
 const MessageRequests = () => {
   const [conversations, setConversations] = useState([]);
@@ -22,25 +22,25 @@ const MessageRequests = () => {
   const scrollRef = useRef();
 
   console.log(conversations);
-  
-  useEffect(() => {
-    // socket.current = io("ws://localhost:5000");
-    // socket.current = io("https://click-n-visit.onrender.com");
-    
-    // socket.current.on("getMessage", (data) => {
-    //   setArrivalMessage({
-    //     sender: data.senderId,
-    //     text: data.text,
-    //     createdAt: Date.now(),
-    //   });
-    // });
-  }, []);
+  console.log(currentChat);
 
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
+  // useEffect(() => {
+  //   socket.current = io("ws://localhost:5000");
+  //   socket.current = io("https://click-n-visit.onrender.com");
+  //   socket.current.on("getMessage", (data) => {
+  //     setArrivalMessage({
+  //       sender: data.senderId,
+  //       text: data.text,
+  //       createdAt: Date.now(),
+  //     });
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   arrivalMessage &&
+  //     currentChat?.members.includes(arrivalMessage.sender) &&
+  //     setMessages((prev) => [...prev, arrivalMessage]);
+  // }, [arrivalMessage, currentChat]);
 
   // useEffect(() => {
   //   socket.current.emit("addUser", doctor.id);
@@ -59,9 +59,12 @@ const MessageRequests = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getMessages(currentChat?.conversationId);
-      console.log(data);
-      setMessages(data.messages);
+      if(currentChat){
+        console.log(currentChat?.conversationId);
+        const data = await getMessages(currentChat?.conversationId);
+        console.log(data);
+        setMessages(data);
+      }
     };
     fetchData();
   }, [currentChat]);
@@ -92,15 +95,15 @@ const MessageRequests = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  console.log(newMessage)
-  console.log(message)
+  console.log(newMessage);
+  // console.log(message);
 
   return (
     <>
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <p className="chatMenuInput" >List of patients</p>
+            <p className="chatMenuInput">List of patients</p>
             {conversations.map((convo) => (
               <div onClick={() => setCurrentChat(convo)}>
                 <DoctorConvo conversation={convo} currentUser={doctor} />
@@ -115,7 +118,7 @@ const MessageRequests = () => {
                 <div className="chatBoxTop">
                   {messages.map((msg) => (
                     <div ref={scrollRef}>
-                      <Message message={msg} own={msg.sender === doctor.id} />
+                      <Message message={msg} own={msg.senderId === doctor.id} />
                     </div>
                   ))}
                 </div>

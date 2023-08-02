@@ -20,7 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { doctorRegister } from "../../../axios/services/HomeServices";
-import { getCategories } from "../../../axios/services/AdminServices";
+import { getDepartments } from "../../../axios/services/AdminServices";
 import { TimePicker } from "antd";
 import moment from "moment";
 
@@ -74,8 +74,8 @@ const DoctorRegister = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const token = localStorage.getItem("doctor");
-    const data = await getCategories(token);
+
+    const data = await getDepartments();
     setCategories(data.categoryDetails);
     console.log(categories);
   };

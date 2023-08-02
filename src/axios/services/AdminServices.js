@@ -168,16 +168,21 @@ export const getCategories = async (token) => {
       return data;
 
      }
-
-
-     
-
-  // if (data.status) {
- 
-   
-  // }
 };
 
+
+//GET DEPARTMENTS FOR Doctor Signup
+export const getDepartments = async () => {
+ 
+  const { data } = await axiosAdminInstance.get(`/department`);
+    
+     if(data){
+      console.log(data);
+     
+      return data;
+
+     }
+};
 
 
 

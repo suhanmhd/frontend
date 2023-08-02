@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar";
 const findDoctor = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <FindDoctor />
     </div>
   );

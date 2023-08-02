@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import "./FindDoctor.css";
 import { useNavigate } from "react-router-dom";
 import FindDoctorBanner from "./FindDoctorBanner";
-import { getCategory } from "../../../axios/services/AdminServices";
+import Layout from "../Layout";
+import { getAllDoctors } from "../../../axios/services/HomeServices";
+import DoctorCard from "../InCategory/DoctorCard";
 
 const FindDoctor = () => {
-
-  const [categories, setCategories] = useState([]);
+  const [allDoctors, setAllDoctors] = useState([]);
   const navigate = useNavigate();
   const fetchData = async () => {
-    const data = await getCategory();
-    setCategories(data.categoryDetails);
+    const data = await getAllDoctors();
+    if (data) {
+      console.log(data);
+      setAllDoctors(data.doctorDetails);
+    }
   };
 
   useEffect(() => {
@@ -19,19 +23,12 @@ const FindDoctor = () => {
 
   return (
     <>
-      <FindDoctorBanner />
-      <div className="doc-categories-main">
-        {categories.map((item) => {
-          return (
-            <div
-              className="doc-categories"
-              onClick={() => navigate(`/view-doctors/${item.departmentName}`)}
-            >
-              <p>{item.departmentName}</p>
-            </div>
-          );
-        })}
-      </div>
+      <Layout>
+        {allDoctors &&
+          allDoctors.map((doctor) => {
+            return <DoctorCard doctor={doctor} />;
+          })}
+      </Layout>
     </>
   );
 };

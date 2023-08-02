@@ -236,3 +236,12 @@ export const placeBooking = async (token, bookingData) => {
       return data;
     }
   };
+
+
+  export const getAllDoctors = async () => {
+
+    const { data } = await axiosUserInstance.get('/getAllDoctors');
+    if(data) {
+      return data;
+    }
+  };

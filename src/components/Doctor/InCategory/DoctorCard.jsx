@@ -1,55 +1,82 @@
-import './DoctorCard.css'
+// import './DoctorCard.css'
 import React from 'react'
-import {
-    MDBCard,
-    MDBCardImage,
-    MDBCardBody,
-    MDBCardTitle,
-    MDBCardText,
-    MDBRow,
-    MDBCol,
-    MDBBtn,
-  } from "mdb-react-ui-kit";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
-const DoctorCard = (props) => {
+const DoctorCard = ({doctor}) => {
 
-  const navigate = useNavigate();
 
   return (
-        <MDBRow className="row-cols-1 row-cols-md-1 g-4">
-          <MDBCol>
-            {/* {props.doctor && ( */}
-                <MDBCard alignment="center">
-                  <MDBCardImage
-                    src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiQmcqzN9KSMx-hxPJfiB3yt59uQhN9R4IqjisfUEitJv9lbQVN14QYLsUfmgiH-AoH2VgTFMdRBaTWa9XXpU9aMV1fveYnRgRsf4peaqt_rCR_qyQ483NgjHHdhfYpOr8axyGWhk3DHw5lAUQkXl6NGMugPS7k6Apw7CUjqRMgwAv01i2_AXyRumuBfw/s458/blank-profile-picture-hd-images-photo.JPG"
-                    alt="profile"
-                    position="top"
-                    height="300px"
-                  />
-                  <MDBCardBody>
-                    <MDBCardTitle>
-                      Dr. {props.doctor.firstname + " " + props.doctor.lastname}
-                    </MDBCardTitle>
-                    <MDBCardText>
-                      <b>{props.doctor.specialization.category}</b>
-                    </MDBCardText>
-                    <MDBCardText>
-                    <p>Experience : {props.doctor.experience} years</p>
-                    </MDBCardText>
-                    <MDBCardText>
-                      <p>Fees per Consultation : Rs. {props.doctor.feesPerConsultation}</p>
-                    </MDBCardText>
-                    <MDBCardText>
-                      {/* <p>Timings : {props.doctor.timings} </p> */}
-                    </MDBCardText>
-                    <MDBBtn onClick={() => navigate(`/single-doctor/${props.doctor.id}`)}>View Profile</MDBBtn>
-                  </MDBCardBody>
-                </MDBCard>
-                    {/* )} */}
-          </MDBCol>
-        </MDBRow>
-      // </div>  
+    <div class="card">
+    <div class="card-body">
+      <div class="doctor-widget">
+        <div class="doc-info-left">
+          <div class="doctor-img">
+            <a href="doctor-profile.html">
+              <img src="assets/img/doctors/doctor-thumb-02.jpg" class="img-fluid" alt="User Image"/>
+            </a>
+          </div>
+          <div class="doc-info-cont">
+            <h4 class="doc-name"><a href="doctor-profile.html">Dr. {doctor.firstname}</a></h4>
+            <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p>
+            <h5 class="doc-department"><img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality"/>Dentist</h5>
+            <div class="rating">
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star filled"></i>
+              <i class="fas fa-star"></i>
+              <span class="d-inline-block average-rating">(35)</span>
+            </div>
+            <div class="clinic-details">
+              <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p>
+              <ul class="clinic-gallery">
+                <li>
+                  <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery">
+                    <img src="assets/img/features/feature-01.jpg" alt="Feature"/>
+                  </a>
+                </li>
+                <li>
+                  <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery">
+                    <img  src="assets/img/features/feature-02.jpg" alt="Feature"/>
+                  </a>
+                </li>
+                <li>
+                  <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery">
+                    <img src="assets/img/features/feature-03.jpg" alt="Feature"/>
+                  </a>
+                </li>
+                <li>
+                  <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery">
+                    <img src="assets/img/features/feature-04.jpg" alt="Feature"/>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="clinic-services">
+              <span>Dental Fillings</span>
+              <span> Whitneing</span>
+            </div>
+          </div>
+        </div>
+        <div class="doc-info-right">
+          <div class="clini-infos">
+            <ul>
+              <li><i class="far fa-thumbs-up"></i> 100%</li>
+              <li><i class="far fa-comment"></i> 35 Feedback</li>
+              <li><i class="fas fa-map-marker-alt"></i> Newyork, USA</li>
+              <li><i class="far fa-money-bill-alt"></i> $50 - $300 <i class="fas fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i></li>
+            </ul>
+          </div>
+          <div class="clinic-booking">
+            <Link to={`/doctorProfile/${doctor.id}`}>
+            <a class="view-pro-btn">View Profile</a>
+            </Link>
+            <a class="apt-btn" href="booking.html">Book Appointment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
       )
 }
 

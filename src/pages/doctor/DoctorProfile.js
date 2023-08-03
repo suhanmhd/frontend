@@ -51,7 +51,7 @@ const DoctorProfile = () => {
   console.log(urlLink);
 
   const {
-    username,
+    name,
     firstname,
     lastname,
     email,
@@ -176,8 +176,8 @@ const DoctorProfile = () => {
                 <InputField
                   label="Username"
                   type="text"
-                  value={username}
-                  name="username"
+                  value={name}
+                  name="name"
                   onChange={onInputChange}
                   disabled
                 ></InputField>

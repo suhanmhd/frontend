@@ -12,24 +12,24 @@ const DoctorInfo = () => {
 
   const fetchData = async () => {
     const data = await getDoctorInfo(token);
+    console.log(data);
     setDetails(data.doctorDetails);
   };
 
   const block = async (doctorId) => {
     const data = await blockDoctor(token, doctorId);
     if (data) {
-      setDetails(data.doctorDetails)
+      fetchData();
     }
   };
 
   const unblock = async (doctorId) => {
     const data = await unblockDoctor(token, doctorId);
     if (data) {
-      setDetails(data.doctorDetails)
-
-      // fetchData();
+      fetchData();
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -73,7 +73,7 @@ const DoctorInfo = () => {
         return (
           <div>
             {" "}
-            {row.enabled ? (
+            {!row.enabled ? (
               <button
                 className="btn btn-success"
                 onClick={() => unblock(row.id)}

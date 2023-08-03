@@ -18,11 +18,11 @@ import axios from 'axios';
 
 
 export const axiosDoctorInstance = axios.create({
-  baseURL: 'http://localhost:9090/doctor', 
+  baseURL: 'http://localhost:9090/user/doctor', 
 });
 
 export const axiosAdminInstance = axios.create({
-  baseURL: 'http://localhost:9090/admin',
+  baseURL: 'http://localhost:9090/user/admin',
 });
 
 

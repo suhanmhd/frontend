@@ -97,6 +97,7 @@ export const unblockDoctor = async (token, id) => {
     config
   );
   if (data) {
+    console.log(data);
     return data;
   }
 };

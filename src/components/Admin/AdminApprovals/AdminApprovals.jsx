@@ -31,7 +31,7 @@ const AdminApprovals = () => {
     const data = await approve({ id: row.id, status }, token);
     if (data) {
       fetchData();
-      fetchData();
+    
     }
   };
 
@@ -41,14 +41,13 @@ const AdminApprovals = () => {
     const data = await approve({ id: row.id, status, reason }, token);
     if (data) {
       fetchData();
-      fetchData();
-      fetchData();
+   
     }
   }
 
   useEffect(() => {
     fetchData();
-    fetchData();
+   
   }, []);
 
   const customStyles = {

@@ -337,7 +337,7 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
         <div class="row">
           <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
             {/* <!-- Profile Sidebar --> */}
-            {/* <div class="profile-sidebar">
+            <div class="profile-sidebar">
               <div class="widget-profile pro-widget-content">
                 <div class="profile-info-widget">
                   <a href="#" class="booking-doc-img">
@@ -393,11 +393,11 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
                   </ul>
                 </nav>
               </div>
-            </div> */}
+            </div>
             {/* Profile Sidebar  */}
 
             {/* <!-- Search Filter --> */}
-							<div class="card search-filter">
+							{/* <div class="card search-filter">
 								<div class="card-header">
 									<h4 class="card-title mb-0">Search Filter</h4>
 								</div>
@@ -465,7 +465,7 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
 										<button type="button" class="btn btn-block">Search</button>
 									</div>	
 								</div>
-							</div>
+							</div> */}
 							{/* <!-- /Search Filter --> */}
           </div>
 

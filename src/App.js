@@ -14,6 +14,7 @@ import AdminLogin from './pages/admin/AdminLogin';
 import UserPrivateRoutes from './utils/UserPrivateRoutes';
 import './App.css'
 
+
 import { useDispatch } from 'react-redux';
 import { setUser } from './redux/features/authSlice';
 import AdminSignup from './pages/admin/AdminSignup';
@@ -40,6 +41,7 @@ import ForgotPassword from './pages/user/ForgotPassword';
 import SetNewPassword from './pages/user/SetNewPassword';
 import E404 from './pages/E404/E404';
 import SheduleTimings from './pages/doctor/SheduleTimings';
+import BookAppointments from './pages/user/BookAppointments';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -62,6 +64,7 @@ const App = () => {
         <Route path="/findDoctor" element={<FindDoctor />} />
         <Route path="/view-doctors/:departmentName" element={<InCategoryDoctorsList />} />
         <Route path="/single-doctor/:docId" element={<DoctorBooking />} />
+        <Route path="/book-slot/:docId" element={<BookAppointments />} />
         <Route path="/user-profile" element={<UserProfile />} />
         <Route path="/doctorProfile/:docId" element={<DoctorProfile />} />
         <Route path="/schedule-timings" element={<SheduleTimings />} />

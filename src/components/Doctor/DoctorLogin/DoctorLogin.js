@@ -138,9 +138,13 @@ const DoctorLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  
   useEffect(() => {
     error && toast.error(error);
   }, [error]);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -218,7 +222,7 @@ const DoctorLogin = () => {
           </MDBValidation>
           <MDBCardFooter>
             <Link to="/doctorSignup">
-            <p>Don't have an account? Register here</p>
+              <p>Don't have an account? Register here</p>
             </Link>
           </MDBCardFooter>
         </MDBCardBody>

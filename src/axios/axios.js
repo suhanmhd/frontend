@@ -36,6 +36,7 @@ export const axiosUserInstance = axios.create({
 });
 
 
+
 export const axiosBookingInstance = axios.create({
   baseURL: 'http://localhost:9090/appointment', 
 });
@@ -48,6 +49,7 @@ export const axiosBookingInstance = axios.create({
 export const axiosMessageInstance = axios.create({
   baseURL: 'http://localhost:9090/appointment',
 });
+
 export const axiosConversationInstance = axios.create({
   baseURL: 'http://localhost:9090/appointment',
 });

@@ -68,10 +68,10 @@ const DoctorCard = ({doctor}) => {
             </ul>
           </div>
           <div class="clinic-booking">
-            <Link to={`/doctorProfile/${doctor.id}`}>
+            <Link to={`/single-doctor/${doctor.id}`}>
             <a class="view-pro-btn">View Profile</a>
             </Link>
-            <a class="apt-btn" href="booking.html">Book Appointment</a>
+            <Link to={`/book-slot/${doctor.id}`} class="apt-btn" >Book Appointment</Link>
           </div>
         </div>
       </div>

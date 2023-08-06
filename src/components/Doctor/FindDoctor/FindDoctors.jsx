@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./FindDoctor.css";
 import { useNavigate } from "react-router-dom";
 import FindDoctorBanner from "./FindDoctorBanner";
-import Layout from "../Layout";
+import UserLayout from "../../User/UserLayout";
 import { getAllDoctors } from "../../../axios/services/HomeServices";
 import DoctorCard from "../InCategory/DoctorCard";
 
@@ -23,12 +23,12 @@ const FindDoctor = () => {
 
   return (
     <>
-      <Layout>
+      <UserLayout>
         {allDoctors &&
           allDoctors.map((doctor) => {
             return <DoctorCard doctor={doctor} />;
           })}
-      </Layout>
+      </UserLayout>
     </>
   );
 };

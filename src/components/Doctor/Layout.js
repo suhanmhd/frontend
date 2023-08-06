@@ -77,8 +77,6 @@ const Layout = ({ children }) => {
           DoctorSidebarData={DoctorSidebarData}
           location={location}
         />
-
-       
       </div>
     </>
   );
@@ -336,7 +334,9 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
       <div class="container-fl-uid">
         <div class="row">
           <div class="col-md-5 col-lg-4 col-xl-3 theiaStickySidebar">
+
             {/* <!-- Profile Sidebar --> */}
+            
             <div class="profile-sidebar">
               <div class="widget-profile pro-widget-content">
                 <div class="profile-info-widget">
@@ -394,6 +394,8 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
                 </nav>
               </div>
             </div>
+
+
             {/* Profile Sidebar  */}
 
             {/* <!-- Search Filter --> */}

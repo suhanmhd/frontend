@@ -6,145 +6,122 @@ import { useSelector, useDispatch } from "react-redux";
 import Logo from "../assets/images/Logo.png";
 import { setLogout } from "../redux/features/authSlice";
 
-const Navbar = () => {
-  // const [show, setShow] = useState(false)
+function Navbar() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(setLogout());
   };
-  // const { user } = useSelector((state) => ({ ...state.auth }));
-  const user = JSON.parse(localStorage.getItem('user'))
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const userNavigation = [
+    {
+      name: "Home",
+      path: "/",
+    },
+    {
+      name: "Appointments",
+      path: "/view-appointments",
+    },
+    {
+      name: "My Wallet",
+      path: `/my-wallet`,
+    },
+    {
+      name: "Messages",
+      path: `/messenger`,
+    },
+  ];
 
   return (
-    <Stack
-      direction="row"
-      justifyContent="space-around"
-      sx={{
-        gap: {
-          sm: "122px",
-          xs: "40px",
-        },
-        mt: { sm: "32px", xs: "20px" },
-        // justifyContent: 'none'
-      }}
-    >
-      <Link
-        to="/"
-        style={{
-          textDecoration: "none",
-          color: "#3A1212",
-        }}
-      >
-        <img
-          src={Logo}
-          alt="Logo"
-          style={{
-            width: "120px",
-            height: "80px",
-          }}
-        />
-        <Typography
-          sx={{
-            fontWeight: "bold",
-          }}
-          fontSize="25px"
-          color="darkred"
-        >
-          CLICK N VISIT
-        </Typography>
-      </Link>
-      <Stack
-        direction="row"
-        gap="40px"
-        fontSize="24px"
-        alignItems="flex-center"
-        pr="40px"
-      >
-        <Link
-          to="/"
-          style={{
-            textDecoration: "none",
-            color: "#3A1212",
-          }}
-        >
-          Home
-        </Link>
-        {user?.userExists? (
-          <>
-            {" "}
-            <Link
-              to="/view-appointments"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Appointments
-            </Link>
-            <Link
-              to="/my-wallet"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Wallet
-            </Link>
-            <Link
-              to="/messenger"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Messages
-            </Link>
-            <Link
-              to="/user-profile"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-            {user?.userExists?.name}
-            </Link>
-            <Link
-              to="/"
-              onClick={handleLogout}
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Logout
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              style={{
-                textDecoration: "none",
-                color: "#3A1212",
-              }}
-            >
-              Signup
-            </Link>
-          </>
-        )}
-      </Stack>
-    </Stack>
+    <header class="header">
+      <nav class="navbar navbar-expand-lg header-nav">
+        <div class="navbar-header">
+          <a id="mobile_btn" href="javascript:void(0);">
+            <span class="bar-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </a>
+          <a href="/" class="navbar-brand logo">
+            <img
+              src="/assets/img/logo.png"
+              class="img-fluid w-auto"
+              alt="Logo"
+            />
+          </a>
+        </div>
+
+        <div class="main-menu-wrapper">
+          <div class="menu-header">
+            <a href="/" class="menu-logo">
+              <img src="assets/img/logo.png" class="img-fluid" alt="Logo" />
+            </a>
+            <a id="menu_close" class="menu-close" href="javascript:void(0);">
+              <i class="fas fa-times"></i>
+            </a>
+          </div>
+
+          <ul class="main-nav">
+            {user?.userExists ? (
+              userNavigation.map((nav) => (
+                <li>
+                  <a href={nav.path}>{nav.name}</a>
+                </li>
+              ))
+            ) : (
+              <>
+                <li>
+                  <a href="/">Home</a>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+
+        <ul class="nav header-navbar-rht">
+          {user?.userExists ? (
+            <li class="nav-item dropdown has-arrow logged-item">
+              <a
+                href="#"
+                class="dropdown-toggle nav-link"
+                data-toggle="dropdown"
+              >
+                <h6>{user?.userExists?.name}</h6>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <div class="user-header">
+                  <div class="user-text">
+                    <h6>{user?.userExists?.name}</h6>
+                  </div>
+                </div>
+
+                <a class="dropdown-item" href="/user-profile">
+                  Profile
+                </a>
+
+                <a class="dropdown-item" href="/" onClick={handleLogout}>
+                  Logout
+                </a>
+              </div>
+            </li>
+          ) : (
+            <li class="nav-item">
+              <a class="nav-link header-login" href="/login">
+                login
+              </a>
+
+              <a class="nav-link header-login" href="/signup">
+                signup
+              </a>
+            </li>
+          )}
+        </ul>
+      </nav>
+    </header>
   );
-};
+}
 
 export default Navbar;

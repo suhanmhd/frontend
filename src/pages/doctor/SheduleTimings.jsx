@@ -1,45 +1,32 @@
 import React from "react";
 import Layout from "../../components/Doctor/Layout";
 import { useState, useEffect } from "react";
-import { Modal, Button, TimePicker, DatePicker } from "antd";
+import { DatePicker } from "antd";
 import { Link } from "react-router-dom";
 import {
   addDoctorScheduledTimes,
+  deleteDoctorScheduledTimes,
   getDoctorScheduledTimes,
 } from "../../axios/services/DoctorServices";
 
-// const scheduleData = {
-//   doctor_id: "12345",
-
-//   available_slots: [
-//     {
-//       date: "2023-07-15",
-//       times: ["09:00 AM", "10:30 AM", "02:00 PM"],
-//     },
-//     {
-//       date: "2023-07-16",
-//       times: ["11:00 AM", "03:30 PM", "05:00 PM"],
-//     },
-//   ],
-// };
-
-// const scheduledData =
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SheduleTimings = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dates, setDates] = useState([]);
+
   const [selectedDate, setSelectedDate] = useState(null);
 
   const [scheduleData, setScheduleData] = useState([]);
 
   const [timing, setTiming] = useState("");
 
+  const [slotId, setSlotId] = useState("");
+
   const [fetchData, setFetchData] = useState(null);
 
   const token = JSON.parse(localStorage.getItem("doctor")).token;
-  // const token = "123";
   const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists.id;
-  // const docId = "123";
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -68,106 +55,101 @@ const SheduleTimings = () => {
     const startTime = convertToTimeFormat(timing);
     const endTime = convertToTimeFormat(timing, addOnTimeInMinutes);
 
-    console.log(scheduleData);
-    setScheduleData([
-      ...scheduleData,
-      {
-        doctorId: docId,
-        date: selectedDate,
-        startTime: startTime,
-        endTime: endTime,
-        status: false,
-      },
-    ]);
+    const slotOverlap = scheduleData.find(
+      (slot) =>
+        selectedDate === slot.date &&
+        startTime >= slot.startTime &&
+        startTime <= slot.endTime
+    );
 
-    // if (selectedDay) {
-    //   const currentDate = new Date();
-    //   const currentDay = currentDate.getDay();
-    //   const selectedDayIndex = daysOfWeek.indexOf(selectedDay);
-    //   let daysToAdd;
-    //   if (selectedDayIndex >= currentDay) {
-    //     daysToAdd = selectedDayIndex - currentDay;
-    //   } else {
-    //     daysToAdd = 7 - currentDay + selectedDayIndex;
-    //   }
+    const is30MinutesBeforeStartTime = scheduleData.find(
+      (slot) =>
+        selectedDate === slot.date &&
+        startTime >= convertToTimeFormat(slot.startTime, -addOnTimeInMinutes) &&
+        endTime <= slot.startTime
+    );
 
-    //   const selectedDate = new Date(
-    //     currentDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000
-    //   );
+    if (!slotOverlap && !is30MinutesBeforeStartTime) {
+      setScheduleData([
+        ...scheduleData,
+        {
+          doctorId: docId,
+          date: selectedDate,
+          startTime: startTime,
+          endTime: endTime,
+          status: false,
+        },
+      ]);
+      setIsOpen((prev) => !prev);
 
-    //   const selectedDateString = selectedDate.toISOString().split("T")[0];
-
-    //   const updatedData = { ...data };
-
-    //   const selectedSlot = updatedData.available_slots.find(
-    //     (slot) =>
-    //       new Date(slot.date).getDay() === daysOfWeek.indexOf(selectedDay)
-    //   );
-
-    //   if (selectedSlot) {
-    //     selectedSlot.times = selectedSlot.times && [
-    //       ...selectedSlot.times,
-    //       timing,
-    //     ];
-
-    //     setData(updatedData);
-    //   } else {
-    //     const newSlot = {
-    //       date: selectedDateString,
-    //       times: [timing],
-    //     };
-    //     updatedData.available_slots.push(newSlot);
-    //     const addData = async (token, docId, scheduleData) => {
-    //       scheduleData.doctor_id = docId;
-    //       console.log(scheduleData);
-
-    //       const data = await addDoctorScheduledTimes(token, scheduleData);
-    //       setData(data);
-    //     };
-
-    //     addData(token, docId, data);
-    //   }
-    // }
+      toast.success("slot added successfully", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      toast.error("slot not available", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
 
-  // const handleRemovingTiming = (timesId) => {
-  //   if (selectedDay) {
-  //     const updatedData = { ...data };
+  const handleRemovingTiming = async (timesId) => {
+    setSlotId(timesId);
+  };
 
-  //     const selectedSlot = updatedData.available_slots.find(
-  //       (slot) =>
-  //         new Date(slot.date).getDay() === daysOfWeek.indexOf(selectedDay)
-  //     );
+  const fetchAllData = async () => {
+    const data = await getDoctorScheduledTimes(token, docId);
+    setFetchData(data.slot);
+  };
 
-  //     if (selectedSlot) {
-  //       const updatedTimes = selectedSlot.times.filter(
-  //         (_time, index) => index !== timesId
-  //       );
-  //       selectedSlot.times = updatedTimes;
-  //       setData(updatedData);
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getDoctorScheduledTimes(token, docId);
-      setFetchData(data.slot);
+    fetchAllData();
+  }, [token, docId, slotId]);
+
+
+  useEffect(() => {
+    const addData = async () => {
+      try {
+        await addDoctorScheduledTimes(token, scheduleData);
+        console.log(scheduleData);
+      } catch (error) {
+        console.error("Error adding data:", error);
+      }
     };
-    fetchData();
-  }, []);
 
+    addData().then(() => {
+      fetchAllData();
+    });
+  }, [token, scheduleData]);
 
-  // useEffect(() => {
-  //   setData(scheduleData);
-  // }, []);
+  useEffect(() => {
+    const deleteData = async () => {
+      try {
+        if (slotId) {
+          const updatedScheduleData = scheduleData.filter(
+            (item) => item.timesId !== slotId
+          );
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
+          await deleteDoctorScheduledTimes(token, slotId);
+          setSlotId("");
+          setScheduleData(updatedScheduleData);
+
+          toast.success("Slot deleted successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting data:", error);
+      }
+    };
+
+    deleteData().then(() => {
+      fetchAllData();
+    });
+  }, [token, scheduleData, slotId]);
+
 
   
-
   const handleDateChange = (date) => {
     const inputDate = new Date(date);
 
@@ -205,20 +187,26 @@ const SheduleTimings = () => {
                       <ul class="nav nav-tabs nav-justified">
                         {fetchData?.map((slot, index) => {
                           return (
-                            <li class="nav-item" key={index}>
-                              <Link
-                                key={slot.date}
-                                onClick={() => handleDateClick(slot.date)}
-                                className={
-                                  selectedDate === slot.date ? "active" : ""
-                                }
-                                class="nav-link"
-                                data-toggle="tab"
-                                href="#slot_monday"
-                              >
-                                {slot.date}
-                              </Link>
-                            </li>
+                            <>
+                              {slot?.slots.length > 0 ? (
+                                <li class="nav-item" key={index}>
+                                  <Link
+                                    key={slot.date}
+                                    onClick={() => handleDateClick(slot.date)}
+                                    className={
+                                      selectedDate === slot.date ? "active" : ""
+                                    }
+                                    class="nav-link"
+                                    data-toggle="tab"
+                                    href="#slot_monday"
+                                  >
+                                    {slot.date}
+                                  </Link>
+                                </li>
+                              ) : (
+                                ""
+                              )}
+                            </>
                           );
                         })}
                       </ul>
@@ -292,6 +280,9 @@ const SheduleTimings = () => {
                                   <Link
                                     href="javascript:void(0)"
                                     className="delete_schedule"
+                                    onClick={() =>
+                                      handleRemovingTiming(slot.id)
+                                    }
                                   >
                                     <i className="fa fa-times"></i>
                                   </Link>

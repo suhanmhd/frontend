@@ -208,3 +208,19 @@ if(data.status){
         return data
       }
     };
+
+
+    export const deleteDoctorScheduledTimes= async(token,slotId)=>{
+      const config = {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      };
+      console.log(slotId,token)
+        const { data } = await axiosDoctorInstance.delete(`/deleteSlot/${slotId}`, config)
+        if(data){
+          return data
+        }
+      };

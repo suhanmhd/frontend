@@ -284,13 +284,15 @@ const DoctorRegister = () => {
                       area-label="Default select example"
                       onChange={onInputChange}
                     >
+                      
                       <option value="" disabled selected>
                         Specialization
                       </option>
+
                       {categories.map((item, index) => {
                         return (
                           <>
-                            <option key={index} value={item.departmentName}>
+                            <option key={index} value={item.id}>
                               {item.departmentName}
                             </option>
                           </>

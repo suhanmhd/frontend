@@ -24,6 +24,7 @@ const DoctorBooking = () => {
   const handleAvailability = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = user.token;
+    
     console.log(token);
 
     if (user) {

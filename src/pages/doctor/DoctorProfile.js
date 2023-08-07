@@ -149,7 +149,7 @@ const DoctorProfile = () => {
                 <div class="form-group">
                   <div class="change-avatar">
                     <div class="profile-img">
-                      <img src={image} alt="User Image" />
+                      <img src={image} alt="" />
                     </div>
                     <div class="upload-img">
                       <div class="change-photo-btn">
@@ -163,6 +163,7 @@ const DoctorProfile = () => {
                           name="image"
                           onChange={(e) => setImgstate(e.target.files[0])}
                         />
+                        
                       </div>
                       <small class="form-text text-muted">
                         Allowed JPG, GIF or PNG. Max size of 2MB

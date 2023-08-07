@@ -78,16 +78,16 @@ const App = () => {
             <Route path="/adminHome" element={<AdminHome />}/>
         </Route>
 
-        {/* <Route element={<UserPrivateRoutes />}> */}
+        <Route element={<UserPrivateRoutes />}>
         <Route path="/view-appointments" element={<ViewAppointments />} />
         <Route path="/payment-page/:id" element={<PaymentPage />} />
         <Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
         <Route path="/messenger" element={<Messenger />} />
         <Route path="/my-wallet" element={<Wallet />} />
-        {/* </Route> */}
+        </Route>
 
         <Route
-         element={<DoctorPrivateRoutes />}
+         element={<DoctorPrivateRoutes/>}
          >
         <Route path="/doctorHome" element={<DoctorHome />} />
         <Route path="/appointment-requests" element={<AppointmentRequests />} />

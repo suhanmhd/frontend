@@ -1,8 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserLayout from "../../components/User/UserLayout";
+import { getDoctorAvailableSlots } from "../../axios/services/HomeServices";
+import { useParams } from "react-router-dom";
+import { Hidden } from "@mui/material";
 
 const BookAppointments = () => {
+  const { docId } = useParams();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.token;
 
+  const [appointmentDetail, setAppointmentDetail] = useState(() => {
+    const storedData = localStorage.getItem("appointmentDetail");
+    return storedData ? JSON.parse(storedData) : [];
+  });
+
+  const [date, setDate] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getDoctorAvailableSlots(token, docId);
+      setAppointmentDetail(data.slot);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "appointmentDetail",
+      JSON.stringify(appointmentDetail)
+    );
+  }, [appointmentDetail]);
+
+  const formatDate = (dateString) => {
+    const months = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const weekDay = date
+      .toLocaleString("en-US", { weekday: "short" })
+      .toUpperCase();
+
+    return `${weekDay} ${day} ${month}`;
+  };
+
+  const handleDayClick = (clickedDate) => {
+    console.log(clickedDate);
+    setDate(clickedDate);
+  };
 
   return (
     <>
@@ -45,62 +103,32 @@ const BookAppointments = () => {
                     <div class="row">
                       <div class="col-md-12">
                         <div class="day-slot">
-                          <ul>
+                          <ul style={{ display: "flex", overflow:"hidden"}}>
                             <li class="left-arrow">
                               <a href="#">
                                 <i class="fa fa-chevron-left"></i>
                               </a>
                             </li>
-                            
-                            <li>
-                              <span>Mon</span>
-                              <span class="slot-date">
-                                11 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Tue</span>
-                              <span class="slot-date">
-                                12 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Wed</span>
-                              <span class="slot-date">
-                                13 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Thu</span>
-                              <span class="slot-date">
-                                14 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Fri</span>
-                              <span class="slot-date">
-                                15 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Sat</span>
-                              <span class="slot-date">
-                                16 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
-                            <li>
-                              <span>Sun</span>
-                              <span class="slot-date">
-                                17 Nov <small class="slot-year">2019</small>
-                              </span>
-                            </li>
+
+                            {appointmentDetail?.slotList?.map((slot) => (
+                              <li
+                                onClick={() => handleDayClick(slot.date)}
+                                style={{ cursor: "pointer" }}
+                              >
+                                <span>
+                                  {formatDate(slot.date).split(" ").slice(0, 1)}
+                                </span>
+                                <span class="slot-date">
+                                  {formatDate(slot.date).split(" ").slice(1)}
+                                </span>
+                              </li>
+                            ))}
+
                             <li class="right-arrow">
                               <a href="#">
                                 <i class="fa fa-chevron-right"></i>
                               </a>
                             </li>
-
-
                           </ul>
                         </div>
                       </div>
@@ -111,22 +139,12 @@ const BookAppointments = () => {
                     <div class="row">
                       <div class="col-md-12">
                         <div class="time-slot">
-                          <ul class="clearfix">
-                            
-                            <li>
-                              <a class="timing" href="#">
-                                <span>9:00</span> <span>AM</span>
-                              </a>
-                              <a class="timing selected" href="#">
-                                <span>10:00</span> <span>AM</span>
-                              </a>
-                              <a class="timing" href="#">
-                                <span>11:00</span> <span>AM</span>
-                              </a>
-                            </li>
-                            
-                          
-                          </ul>
+                          <AvailableSlots
+                            date={
+                              date ? date : appointmentDetail?.slotList[0].date
+                            }
+                            scheduledTimeSlots={appointmentDetail?.slotList}
+                          />
                         </div>
                       </div>
                     </div>
@@ -148,3 +166,42 @@ const BookAppointments = () => {
 };
 
 export default BookAppointments;
+
+function AvailableSlots({ date, scheduledTimeSlots }) {
+  console.log(date, scheduledTimeSlots);
+
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  useEffect(() => {
+    const filterdData = scheduledTimeSlots.filter((slot) => slot.date === date);
+    // console.log(filterdData[0]?.slots)
+    setTimeSlots(filterdData[0]?.slots);
+  }, [date]);
+
+  const groupedTimeSlots = [];
+  const groupSize = 3;
+
+  for (let i = 0; i < timeSlots.length; i += groupSize) {
+    groupedTimeSlots.push(timeSlots.slice(i, i + groupSize));
+  }
+
+  console.log(groupedTimeSlots, "==");
+
+  return (
+    <ul class="clearfix">
+      {groupedTimeSlots.map((timeSlotGroup, index) => (
+        <li key={index}>
+          {timeSlotGroup.map((slot, slotIndex) => (
+            <a
+              key={slotIndex}
+              className={`timing ${slot.status ? "selected" : ""}`}
+              href="#"
+            >
+              <span>{slot.startTime}</span>
+            </a>
+          ))}
+        </li>
+      ))}
+    </ul>
+  );
+}

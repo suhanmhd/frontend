@@ -72,6 +72,7 @@ const Layout = ({ children }) => {
         <Header doctor={doctor} />
         <BreadcumbBar />
         <Main
+        doctor={doctor} 
           children={children}
           handleLogout={handleLogout}
           DoctorSidebarData={DoctorSidebarData}
@@ -96,7 +97,7 @@ function Header({ doctor }) {
           </a>
           <a href="/" class="navbar-brand logo">
             <img
-              src="assets/img/logo.png"
+              src="/assets/img/logo.png"
               class="img-fluid w-auto"
               alt="Logo"
             />
@@ -106,14 +107,14 @@ function Header({ doctor }) {
         <div class="main-menu-wrapper">
           <div class="menu-header">
             <a href="/" class="menu-logo">
-              <img src="assets/img/logo.png" class="img-fluid" alt="Logo" />
+              <img src="/assets/img/logo.png" class="img-fluid" alt="Logo" />
             </a>
             <a id="menu_close" class="menu-close" href="javascript:void(0);">
               <i class="fas fa-times"></i>
             </a>
           </div>
 
-          <ul class="main-nav">
+          {/* <ul class="main-nav">
             <li>
               <a href="index-2.html">Home</a>
             </li>
@@ -244,7 +245,8 @@ function Header({ doctor }) {
             <li class="login-link">
               <a href="login.html">Login / Signup</a>
             </li>
-          </ul>
+          </ul> */}
+
         </div>
         <ul class="nav header-navbar-rht">
           <li class="nav-item contact-item">
@@ -258,7 +260,11 @@ function Header({ doctor }) {
           </li>
 
           <li class="nav-item dropdown has-arrow logged-item">
-            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+            <span class="dropdown-toggle nav-link" data-toggle="dropdown">
+          {doctor?.doctorExists?.name && doctor.doctorExists.name.charAt(0).toUpperCase() + doctor.doctorExists.name.slice(1)}
+
+            </span>
+            {/* <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
               <span class="user-img">
                 <img
                   class="rounded-circle"
@@ -267,12 +273,13 @@ function Header({ doctor }) {
                   alt="Darren Elder"
                 />
               </span>
-            </a>
+            </a> */}
+
             <div class="dropdown-menu dropdown-menu-right">
               <div class="user-header">
                 <div class="avatar avatar-sm">
                   <img
-                    src="assets/img/doctors/doctor-thumb-02.jpg"
+                    src="/assets/img/doctors/doctor-thumb-02.jpg"
                     alt="User Image"
                     class="avatar-img rounded-circle"
                   />
@@ -280,9 +287,8 @@ function Header({ doctor }) {
                 <div class="user-text">
                   <h6>
                     {" "}
-                    Dr.Muhammad Suhan
-                    {doctor?.doctorExists?.name}{" "}
-                    {doctor?.doctorExists?.lastname}
+                    Dr.
+                    {doctor?.doctorExists?.name && doctor.doctorExists.name.charAt(0).toUpperCase() + doctor.doctorExists.name.slice(1)}
                   </h6>
                   <p class="text-muted mb-0">Doctor</p>
                 </div>
@@ -291,7 +297,7 @@ function Header({ doctor }) {
                 Dashboard
               </a>
               <a class="dropdown-item" href="doctor-profile-settings.html">
-                Profile Settings
+                Profile 
               </a>
               <a class="dropdown-item" href="login.html">
                 Logout
@@ -340,18 +346,17 @@ function Main({ doctor, DoctorSidebarData, children, handleLogout, location }) {
             <div class="profile-sidebar">
               <div class="widget-profile pro-widget-content">
                 <div class="profile-info-widget">
-                  <a href="#" class="booking-doc-img">
+                  {/* <a href="#" class="booking-doc-img">
                     <img
                       src="assets/img/doctors/doctor-thumb-02.jpg"
                       alt="User Image"
                     />
-                  </a>
+                  </a> */}
 
                   <div class="profile-det-info">
                     <h3 className="text-slate-700 ms-3">
-                      Dr.Muhammad Suhan
-                      {doctor?.doctorExists?.name}{" "}
-                      {doctor?.doctorExists?.lastname}
+                    Dr.{doctor?.doctorExists?.name && doctor.doctorExists.name.charAt(0).toUpperCase() + doctor.doctorExists.name.slice(1)}
+                   
                     </h3>
 
                     <div class="patient-details">

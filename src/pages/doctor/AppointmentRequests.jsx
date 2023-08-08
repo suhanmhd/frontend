@@ -11,32 +11,31 @@ import {
 import Layout from "../../components/Doctor/Layout";
 
 const AppointmentRequests = () => {
-  const [appointments, setAppointments] = useState("");
+  const [appointments, setAppointments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [reason, setReason] = useState('');
-  const [todays, setTodays] = useState("");
+  const [reason, setReason] = useState("");
+  const [todaysAppointments, setTodaysAppointments] = useState([]);
   const token = JSON.parse(localStorage.getItem("doctor")).token;
-  
+
   const fetchData = async () => {
     const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists?.id;
     const data = await getAppointmentRequests(token, docId);
- 
+
     console.log(data);
     setAppointments(data.appointmentsDetails);
-    const todaysData = await getTodaysAppointmentRequests(token, docId);
-    setTodays(todaysData.appointmentsDetails);
+    // const todaysData = await getTodaysAppointmentRequests(token, docId);
+    // setTodaysAppointments(todaysData.appointmentsDetails);
   };
-  console.log(todays);
+  // console.log(todays);
   useEffect(() => {
- 
     fetchData();
   }, []);
 
   console.log(appointments);
-  
-    const handleSelectChange = (event) => {
-      setReason(event.target.value);
-    };
+
+  const handleSelectChange = (event) => {
+    setReason(event.target.value);
+  };
 
   // function to handle appointment cancellation
   const reject = () => {
@@ -61,7 +60,9 @@ const AppointmentRequests = () => {
     }
   };
 
-  const handleSubmit = async(e, row, status, reason) => {
+
+
+  const handleSubmit = async (e, row, status, reason) => {
     e.preventDefault();
     // You can do something with the selected reason here
     try {
@@ -79,7 +80,7 @@ const AppointmentRequests = () => {
       console.log(error);
       toast.error("Something went wrong");
     }
-    console.log(row, status, reason)
+    console.log(row, status, reason);
     setIsModalOpen(false);
   };
 
@@ -137,115 +138,118 @@ const AppointmentRequests = () => {
     backgroundColor: "green",
   };
 
-  const columns = [
-    {
-      name: "Token number",
-      selector: (row) => row.id,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-    },
-    {
-      name: "Time",
-      selector: (row) => row.time,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-    },
-    {
-      name: "Payment",
-      selector: (row) => row.paymentStatus,
-    },
-    {
-      name: "Action",
-      selector: (row) => {
-        return (
-          <div>
-            {" "}
-            {row.status === "pending" ? (
-              <>
-                <button
-                  className="btn btn-success"
-                  onClick={() => handleStatus(row, "approved")}
-                >
-                  <i class="fa-solid fa-check"></i>
-                </button>
-                <button className="btn btn-danger" onClick={reject}>
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-                <Modal isOpen={isModalOpen} style={customStyles}>
-                  <h2>Reason for Rejection</h2>
-                  <form onSubmit={(e) => handleSubmit(e, row, "rejected", reason)}>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          value="doctor unavailability"
-                          checked={reason === "doctor unavailability"}
-                          onChange={handleSelectChange}
-                        />
-                        Doctor unavailability
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          value="inappropriate timing"
-                          checked={reason === "inappropriate timing"}
-                          onChange={handleSelectChange}
-                        />
-                        Inappropriate timing
-                      </label>
-                    </div>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          value="irrelevant information"
-                          checked={reason === "irrelevant information"}
-                          onChange={handleSelectChange}
-                        />
-                        Irrelevant information
-                      </label>
-                    </div>
-                    <button type="submit" style={buttonStyles}>
-                      REJECT
-                    </button>
-                  </form>
-                  <button
-                    onClick={() => setIsModalOpen(false)}
-                    style={buttonStyles1}
-                  >
-                    GO BACK
-                  </button>
-                </Modal>
-              </>
-            ) : (
-              <>
-                <button
-                  className="btn btn-success"
-                  disabled
-                  onClick={() => handleStatus(row, "approved")}
-                >
-                  <i class="fa-solid fa-check"></i>
-                </button>
-                <button
-                  className="btn btn-danger"
-                  disabled
-                  onClick={() => handleStatus(row, "rejected")}
-                >
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </>
-            )}
-          </div>
-        );
-      },
-    },
-  ];
+  // const columns = [
+  //   {
+  //     name: "Token number",
+  //     selector: (row) => row.id,
+  //   },
+  //   {
+  //     name: "Date",
+  //     selector: (row) => row.date,
+  //   },
+  //   {
+  //     name: "Time",
+  //     selector: (row) => row.time,
+  //   },
+  //   {
+  //     name: "Status",
+  //     selector: (row) => row.status,
+  //   },
+  //   {
+  //     name: "Payment",
+  //     selector: (row) => row.paymentStatus,
+  //   },
+  //   {
+  //     name: "Action",
+  //     selector: (row) => {
+  //       return (
+  //         <div>
+  //           {" "}
+  //           {row.status === "pending" ? (
+  //             <>
+  //               <button
+  //                 className="btn btn-success"
+  //                 onClick={() => handleStatus(row, "approved")}
+  //               >
+  //                 <i class="fa-solid fa-check"></i>
+  //               </button>
+  //               <button className="btn btn-danger" onClick={reject}>
+  //                 <i class="fa-solid fa-xmark"></i>
+  //               </button>
+
+  //               <Modal isOpen={isModalOpen} style={customStyles}>
+  //                 <h2>Reason for Rejection</h2>
+  //                 <form
+  //                   onSubmit={(e) => handleSubmit(e, row, "rejected", reason)}
+  //                 >
+  //                   <div>
+  //                     <label>
+  //                       <input
+  //                         type="radio"
+  //                         value="doctor unavailability"
+  //                         checked={reason === "doctor unavailability"}
+  //                         onChange={handleSelectChange}
+  //                       />
+  //                       Doctor unavailability
+  //                     </label>
+  //                   </div>
+  //                   <div>
+  //                     <label>
+  //                       <input
+  //                         type="radio"
+  //                         value="inappropriate timing"
+  //                         checked={reason === "inappropriate timing"}
+  //                         onChange={handleSelectChange}
+  //                       />
+  //                       Inappropriate timing
+  //                     </label>
+  //                   </div>
+  //                   <div>
+  //                     <label>
+  //                       <input
+  //                         type="radio"
+  //                         value="irrelevant information"
+  //                         checked={reason === "irrelevant information"}
+  //                         onChange={handleSelectChange}
+  //                       />
+  //                       Irrelevant information
+  //                     </label>
+  //                   </div>
+  //                   <button type="submit" style={buttonStyles}>
+  //                     REJECT
+  //                   </button>
+  //                 </form>
+  //                 <button
+  //                   onClick={() => setIsModalOpen(false)}
+  //                   style={buttonStyles1}
+  //                 >
+  //                   GO BACK
+  //                 </button>
+  //               </Modal>
+  //             </>
+  //           ) : (
+  //             <>
+  //               <button
+  //                 className="btn btn-success"
+  //                 disabled
+  //                 onClick={() => handleStatus(row, "approved")}
+  //               >
+  //                 <i class="fa-solid fa-check"></i>
+  //               </button>
+  //               <button
+  //                 className="btn btn-danger"
+  //                 disabled
+  //                 onClick={() => handleStatus(row, "rejected")}
+  //               >
+  //                 <i class="fa-solid fa-xmark"></i>
+  //               </button>
+  //             </>
+  //           )}
+  //         </div>
+  //       );
+  //     },
+  //   },
+  // ];
 
   return (
     <Layout>
@@ -257,35 +261,93 @@ const AppointmentRequests = () => {
         <div className="row ml-3">
           <h5>Todays Appointments</h5>
         </div>
-        <DataTable
-          columns={columns}
-          data={todays}
-          // fixedHeader
-          fixedHeaderScrollHeight="500px"
-          // selectableRows
-          selectableRowsHighlight
-          highlightOnHover
-          // pagination
-        />
+        {/* <!-- Page Content --> */}
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-xl-12">
+                <div class="appointments">
+                  {todaysAppointments?.map((todaysAppointment) => (
+                    <Appointment appoinment={todaysAppointment} handleStatus={handleStatus}/>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- /Page Content --> */}
       </div>
 
       <div className="container">
         <div className="row ml-3 mt-2">
           <h5>Appointment History</h5>
         </div>
-        <DataTable
-          columns={columns}
-          data={appointments}
-          // fixedHeader
-          fixedHeaderScrollHeight="400px"
-          // selectableRows
-          selectableRowsHighlight
-          highlightOnHover
-          pagination
-        />
+        {/* <!-- Page Content --> */}
+        <div class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12 col-lg-12 col-xl-12">
+                <div class="appointments">
+                  {appointments?.map((appoinment) => (
+                    <Appointment appoinment={appoinment} handleStatus={handleStatus} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- /Page Content --> */}
       </div>
     </Layout>
   );
 };
+
+function Appointment({ appoinment, handleStatus }) {
+  return (
+    <>
+      {/* <!-- Appointment List --> */}
+      <div class="appointment-list">
+        <div class="profile-info-widget">
+          <a href="patient-profile.html" class="booking-doc-img">
+            <img src="/assets/img/patients/patient.jpg" alt="User Image" />
+          </a>
+          <div class="profile-det-info">
+            <h3>
+              <a href="patient-profile.html">{appoinment.userInfo}</a>
+            </h3>
+            <div class="patient-details">
+              <h5>
+                <i class="far fa-clock"></i> 14 Nov 2019, 10.00 AM
+              </h5>
+              <h5>
+                <i class="fas fa-map-marker-alt"></i> Newyork, United States
+              </h5>
+              <h5>
+                <i class="fas fa-envelope"></i> richard@example.com
+              </h5>
+              <h5 class="mb-0">
+                <i class="fas fa-phone"></i> +1 923 782 4575
+              </h5>
+            </div>
+          </div>
+        </div>
+        <div class="appointment-action">
+          {appoinment.status === "pending" && (
+            <>
+              <button onClick={()=>handleStatus(appoinment,"approved")} class="btn btn-sm bg-success-light">
+                <i class="fas fa-check"></i> Accept
+              </button>
+
+              <button onClick={() => handleStatus(appoinment, "rejected")} class="btn btn-sm bg-danger-light">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </>
+          ) }
+        </div>
+      </div>
+      {/* <!-- /Appointment List --> */}
+    </>
+  );
+}
 
 export default AppointmentRequests;

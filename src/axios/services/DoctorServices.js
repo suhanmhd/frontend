@@ -93,7 +93,7 @@ export const getDoctorByCategory = async (token,departmentName) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axiosDoctorInstance.get(`/getAppointmentRequests/${docId}`, config);
+    const { data } = await  axiosBookingInstance.get(`/getAppointmentRequests/${docId}`, config);
     if (data) {
       return data;
     }
@@ -107,7 +107,7 @@ export const getDoctorByCategory = async (token,departmentName) => {
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axiosDoctorInstance.get(`/getTodaysAppointmentRequests/${docId}`, config);
+    const { data } = await  axiosBookingInstance.get(`/getTodaysAppointmentRequests/${docId}`, config);
     if (data) {
       console.log("hel");
       console.log(data);

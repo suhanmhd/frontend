@@ -261,6 +261,8 @@ export const cancelAppointment = async (cancellationData, token) => {
   }
 };
 
+
+
 export const placeBooking = async (token, bookingData) => {
   console.log("in booking");
   console.log(token);
@@ -308,9 +310,8 @@ export const orderVerifyPayment = async (token, res, order) => {
   }
 };
 
-
-export const getAllDoctors = async () => {
-  const { data } = await axiosUserInstance.get("/getAllDoctors");
+export const getAllDoctors = async (searchTerm) => {
+  const { data } = await axiosUserInstance.get(`/getAllDoctors?query=${searchTerm ? `${searchTerm}` : ''}`);
   if (data) {
     return data;
   }

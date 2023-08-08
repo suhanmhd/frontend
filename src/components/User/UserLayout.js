@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 // import { DoctorSidebarData } from "../../Data/Data";
 import "./UserLayout.css";
@@ -7,13 +7,13 @@ import { useDispatch } from "react-redux";
 import { setLogout } from "../../redux/features/authSlice";
 import Navbar from "../Navbar";
 
-const UserLayout = ({ children, sideBar }) => {
+const UserLayout = ({ children, sideBar, handleSearch, searchData , setSearchData }) => {
   return (
     <>
       <div class="main-wrapper">
         <Navbar />
         <BreadcumbBar />
-        <Main children={children} sideBar={sideBar} />
+        <Main children={children} sideBar={sideBar} handleSearch={handleSearch}  searchData={searchData} setSearchData={setSearchData}/>
       </div>
     </>
   );
@@ -43,7 +43,10 @@ function BreadcumbBar() {
   );
 }
 
-function Main({ children, sideBar }) {
+function Main({ children, sideBar, handleSearch, searchData, setSearchData }) {
+  
+
+
   return (
     <div class="content">
       <div class="container-fl-uid">
@@ -59,11 +62,13 @@ function Main({ children, sideBar }) {
                 </div>
                 <div class="card-body">
                   <div class="filter-widget">
-                    <div class="cal-icon">
+                    <div class="">
                       <input
+                        value={searchData}
+                        onChange={(e) => setSearchData(e.target.value)}
                         type="text"
                         class="form-control datetimepicker"
-                        placeholder="Select Date"
+                        placeholder="Search"
                       />
                     </div>
                   </div>
@@ -130,7 +135,11 @@ function Main({ children, sideBar }) {
                     </div>
                   </div>
                   <div class="btn-search">
-                    <button type="button" class="btn btn-block">
+                    <button
+                      onClick={handleSearch}
+                      type="button"
+                      class="btn btn-block"
+                    >
                       Search
                     </button>
                   </div>
@@ -141,7 +150,15 @@ function Main({ children, sideBar }) {
             </div>
           )}
 
-          <div class={!sideBar ? 'col-md-7 col-lg-8 col-xl-9' : 'col-md-7 col-lg-8 col-xl-9 mx-auto'}>{children}</div>
+          <div
+            class={
+              !sideBar
+                ? "col-md-7 col-lg-8 col-xl-9"
+                : "col-md-7 col-lg-8 col-xl-9 mx-auto"
+            }
+          >
+            {children}
+          </div>
         </div>
       </div>
     </div>

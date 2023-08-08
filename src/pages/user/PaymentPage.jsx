@@ -17,33 +17,64 @@ import {
   orderVerifyPayment,
   placeBooking,
 } from "../../axios/services/HomeServices";
+import { getSingleDoctor } from "../../axios/services/DoctorServices";
 
 const PaymentPage = () => {
+  // const { id } = useParams();
   const { id } = useParams();
-  console.log("in payment");
-  const docDataAndBookingData = JSON.parse(decodeURIComponent(id));
-  const bookingData = docDataAndBookingData.isAvailable
-  const doctorDetails = docDataAndBookingData.doctor
 
-  console.log(bookingData);
-  console.log(doctorDetails);
+  // console.log("in payment");
+
+  // const docDataAndBookingData = JSON.parse(decodeURIComponent(id));
+  const [bookingDetails, setBookingDetails] = useState(() => {
+    const storedData = localStorage.getItem("bookingDetails");
+    return storedData ? JSON.parse(storedData) : [];
+  });
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.token;
+
+  const [docDetails, setDocDetails] = useState({});
+
+  // const bookingData = docDataAndBookingData.isAvailable
+  // const doctorDetails = docDataAndBookingData.doctor
+
+  // console.log(bookingData);
+  // console.log(doctorDetails);
 
   const navigate = useNavigate();
 
-  const [docDetails, setDocDetails] = useState("");
-  const token = JSON.parse(localStorage.getItem("user")).token;
-  const userId = JSON.parse(localStorage.getItem("user")).userExists?.id;
-  console.log(userId + "userId");
+  // const [docDetails, setDocDetails] = useState("");
+  // const token = JSON.parse(localStorage.getItem("user")).token;
+  // const userId = JSON.parse(localStorage.getItem("user")).userExists?.id;
+  // console.log(userId + "userId");
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) {
-      navigate("/login");
-    } else {
-      setDocDetails(doctorDetails);
-    }
-  }, [])
-  
+    const fetchData = async () => {
+      const data = await getSingleDoctor(id);
+      setDocDetails(data.doctorDetails);
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    setBookingDetails((prevBookingDetails) => ({
+      ...prevBookingDetails,
+      docId: id,
+      time: bookingDetails?.startTime,
+    }));
+  }, []);
+
+  console.log(bookingDetails)
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   if (!user) {
+  //     navigate("/login");
+  //   } else {
+  //     setDocDetails(doctorDetails);
+  //   }
+  // }, [])
+
   // const fetchData = async () => {
   //   const data = await getDoctorDetails(bookingData?.docId);
   //   console.log(data);
@@ -56,29 +87,27 @@ const PaymentPage = () => {
   const Razorpay = useRazorpay();
 
   const payment = useCallback(async () => {
-    const data = await placeBooking(token, bookingData);
-    console.log(data.status);
-   
-
-// Accessing properties of the order object
 
 
+    const data = await placeBooking(token, bookingDetails);
 
-    console.log("above is placebooking data");
+    //   console.log(data.status);
+
+    // // Accessing properties of the order object
+
+    // console.log("above is placebooking data");
     //  console.log(JSON.parse(data));
     const options = {
       key: "rzp_test_apf694rtVeaN2X",
       amount: data.order.amount,
-     
+
       currency: "INR",
       name: "Click N Visit",
       description: "Online Transaction",
       image: "https://cdn-icons-png.flaticon.com/512/4003/4003833.png",
       order_id: data.order.id,
-      
+
       handler: (res) => {
-       
-    
         verifiyPayment(res, data.order);
       },
       prefill: {
@@ -111,7 +140,9 @@ const PaymentPage = () => {
         alert("error Pls try again...");
       }
     }
-  }, []);
+  }, [bookingDetails]);
+
+  
 
   return (
     <>
@@ -132,7 +163,7 @@ const PaymentPage = () => {
                   Rs. {docDetails?.feesPerConsultation}
                 </h4>
                 <h4>
-                  Dr. {docDetails.firstname} {docDetails.lastname} ({docDetails.specialization})
+                  Dr. {docDetails.firstname} {docDetails.lastname} (specialist)
                 </h4>
                 <div className="d-flex pt-2">
                   <div>
@@ -140,7 +171,7 @@ const PaymentPage = () => {
                       <b>
                         Your appointment will be scheduled on{" "}
                         <span className="text-success">
-                          {bookingData.date} at {bookingData.time}
+                          {bookingDetails.date} at {bookingDetails.startTime}
                         </span>
                       </b>
                     </p>

@@ -70,6 +70,7 @@ const UserProfile = () => {
    
       
       <Navbar />
+
       <div
         className="heading"
         style={{ display: "flex", alignItems: "center" }}
@@ -92,7 +93,7 @@ const UserProfile = () => {
         <h1>MANAGE YOUR PROFILE</h1>
       
         <div className="imgDiv">
-            <img src={image} alt=""/>
+            <img src={image} width="100" height="100" alt=""/>
         </div>
         <input type="file" 
         name="image"
@@ -206,6 +207,8 @@ const UserProfile = () => {
           </MDBCard>
         </div>
       )}
+
+
     </>
   );
 };

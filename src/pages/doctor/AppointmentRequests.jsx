@@ -17,14 +17,16 @@ const AppointmentRequests = () => {
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const token = JSON.parse(localStorage.getItem("doctor")).token;
 
+  console.log(todaysAppointments);
+
   const fetchData = async () => {
     const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists?.id;
     const data = await getAppointmentRequests(token, docId);
 
     console.log(data);
     setAppointments(data.appointmentsDetails);
-    // const todaysData = await getTodaysAppointmentRequests(token, docId);
-    // setTodaysAppointments(todaysData.appointmentsDetails);
+    const todaysData = await getTodaysAppointmentRequests(token, docId);
+    setTodaysAppointments(todaysData.appointmentsDetails);
   };
   // console.log(todays);
   useEffect(() => {
@@ -309,25 +311,32 @@ function Appointment({ appoinment, handleStatus }) {
       <div class="appointment-list">
         <div class="profile-info-widget">
           <a href="patient-profile.html" class="booking-doc-img">
-            <img src="/assets/img/patients/patient.jpg" alt="User Image" />
+            
+            <img src="https://t4.ftcdn.net/jpg/00/65/77/27/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" alt="User Image" />
           </a>
           <div class="profile-det-info">
             <h3>
               <a href="patient-profile.html">{appoinment.userInfo}</a>
             </h3>
             <div class="patient-details">
-              <h5>
-                <i class="far fa-clock"></i> 14 Nov 2019, 10.00 AM
+            <h5>
+                <i class="fas fa-envelope"></i>{appoinment.userEmail}
               </h5>
               <h5>
+              <span class="far fa-clock"> {appoinment.date}, {appoinment.time}</span>
+                {/* <i class="far fa-clock"></i> */}
+              </h5>
+              {/* <h5>
                 <i class="fas fa-map-marker-alt"></i> Newyork, United States
-              </h5>
-              <h5>
-                <i class="fas fa-envelope"></i> richard@example.com
-              </h5>
+              </h5> */}
+             
               <h5 class="mb-0">
-                <i class="fas fa-phone"></i> +1 923 782 4575
+              <i > <span class="fas fa">Payment:{appoinment.paymentStatus}</span></i>
+               
               </h5>
+              {/* <h5 class="mb-0">
+                <i class="fas fa-staus">A Status :{appoinment.paymentStatus}</i>
+              </h5> */}
             </div>
           </div>
         </div>
@@ -343,6 +352,7 @@ function Appointment({ appoinment, handleStatus }) {
               </button>
             </>
           ) }
+          
         </div>
       </div>
       {/* <!-- /Appointment List --> */}

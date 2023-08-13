@@ -14,8 +14,8 @@ const DoctorCards = () => {
   const docId = JSON.parse(localStorage.getItem("doctor"))?.doctorExists?._id;
 
   const fetchData = async () => {
-    const doctorDashDetails = await getDoctorDashDetails(token, docId);
-    setDashDetails(doctorDashDetails);
+    // const doctorDashDetails = await getDoctorDashDetails(token, docId);
+    // setDashDetails(doctorDashDetails);
   };
 
   // console.log(dashDetails);

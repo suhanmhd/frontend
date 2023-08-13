@@ -1,53 +1,82 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { getMyPaidAppointments } from "../../axios/services/DoctorServices";
+import {
+  getAppointmentRequests,
+  getMyPaidAppointments,
+  getTodaysAppointmentRequests,
+  updateStatus,
+} from "../../axios/services/DoctorServices";
 import DoctorCards from "../../components/Doctor/DoctorHome/DoctorCards/DoctorCards";
 import Layout from "../../components/Doctor/Layout";
+import { toast } from "react-toastify";
 
 const DoctorHome = () => {
-  const [paidAppointments, setPaidAppointments] = useState("");
-  const token = JSON.parse(localStorage.getItem("doctor"))?.token;
-  const docId = JSON.parse(localStorage.getItem("doctor"))?.doctorExists?._id;
+  const [appointments, setAppointments] = useState([]);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [reason, setReason] = useState("");
+  const [todaysAppointments, setTodaysAppointments] = useState([]);
+  const token = JSON.parse(localStorage.getItem("doctor")).token;
 
-  console.log("this is from doctorHome :"+token,docId)
+  console.log(todaysAppointments);
 
   const fetchData = async () => {
-    const data = await getMyPaidAppointments(token, docId);
-    setPaidAppointments(data.paidAppointments);
-  };
+    const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists?.id;
+    const data = await getAppointmentRequests(token, docId);
 
+    console.log(data);
+    setAppointments(data.appointmentsDetails);
+    const todaysData = await getTodaysAppointmentRequests(token, docId);
+    setTodaysAppointments(todaysData.appointmentsDetails);
+  };
+  // console.log(todays);
   useEffect(() => {
     fetchData();
   }, []);
 
-  console.log(paidAppointments);
+  const handleStatus = async (row, status) => {
+    try {
+      console.log(status);
+      const response = await updateStatus(
+        { appointmentId: row.id, status },
+        token
+      );
+      console.log(response);
+      if (response) {
+        toast.success(response.message);
+        fetchData();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
-  const columns = [
-    {
-      name: "Token number",
-      selector: (row) => row._id,
-    },
-    {
-      name: "Date",
-      selector: (row) => row.date,
-    },
-    {
-      name: "Time",
-      selector: (row) => row.time,
-    },
-    {
-      name: "Approval status",
-      selector: (row) => row.status,
-    },
-    {
-      name: "Payment Status",
-      selector: (row) => row.paymentStatus,
-    },
-    {
-      name: "Amount",
-      selector: (row) => row.amount,
-    },
-  ];
+  // const columns = [
+  //   {
+  //     name: "Token number",
+  //     selector: (row) => row._id,
+  //   },
+  //   {
+  //     name: "Date",
+  //     selector: (row) => row.date,
+  //   },
+  //   {
+  //     name: "Time",
+  //     selector: (row) => row.time,
+  //   },
+  //   {
+  //     name: "Approval status",
+  //     selector: (row) => row.status,
+  //   },
+  //   {
+  //     name: "Payment Status",
+  //     selector: (row) => row.paymentStatus,
+  //   },
+  //   {
+  //     name: "Amount",
+  //     selector: (row) => row.amount,
+  //   },
+  // ];
 
   return (
     <Layout>
@@ -67,10 +96,8 @@ const DoctorHome = () => {
 
       <div class="row">
         <div class="col-md-12">
-          <h4 class="my-4 ms-2">Patient Appoinment</h4>
-
-          <>
-            {/* <!-- Appointment Tab  */}
+          <h4 class="mb-4">Patient Appoinment</h4>
+          <div class="appointment-tab">
             <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded">
               <li class="nav-item">
                 <a
@@ -78,7 +105,7 @@ const DoctorHome = () => {
                   href="#upcoming-appointments"
                   data-toggle="tab"
                 >
-                  Upcoming
+                  All appointments
                 </a>
               </li>
               <li class="nav-item">
@@ -91,10 +118,8 @@ const DoctorHome = () => {
                 </a>
               </li>
             </ul>
-            {/* /Appointment Tab */}
 
             <div class="tab-content">
-              {/* Upcoming Appointment Tab  */}
               <div class="tab-pane show active" id="upcoming-appointments">
                 <div class="card card-table mb-0">
                   <div class="card-body">
@@ -104,36 +129,92 @@ const DoctorHome = () => {
                           <tr>
                             <th>Patient Name</th>
                             <th>Appt Date</th>
-                            <th>Purpose</th>
-                            <th>Type</th>
+                            <th>Approval</th>
+                            <th>Payment</th>
                             <th class="text-center">Paid Amount</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td colSpan={5}>
-                              <DataTable
-                                columns={columns}
-                                data={paidAppointments}
-                                fixedHeader
-                                fixedHeaderScrollHeight="700px"
-                                selectableRows
-                                selectableRowsHighlight
-                                highlightOnHover
-                                pagination
-                              />
-                            </td>
-                          </tr>
+                          {appointments.map((appointment) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <h2 class="table-avatar">
+                                    <a
+                                      href="patient-profile.html"
+                                      class="avatar avatar-sm mr-2"
+                                    >
+                                      {appointment.userImage ? (
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src={appointment.userImage}
+                                          alt="User"
+                                        />
+                                      ) : (
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="assets/img/patients/patient6.jpg"
+                                          alt="User"
+                                        />
+                                      )}
+                                    </a>
+                                    <a href="patient-profile.html">
+                                      {appointment.userInfo}
+                                    </a>
+                                  </h2>
+                                </td>
+                                <td>
+                                  {appointment.date}{" "}
+                                  <span class="d-block text-info">
+                                    {appointment.time}
+                                  </span>
+                                </td>
+                                <td>{appointment.status}</td>
+                                <td>{appointment.paymentStatus}</td>
+                                <td class="text-center">
+                                  Rs. {appointment.amount}
+                                </td>
+                                <td class="text-right">
+                                  <div class="table-action">
+                                    {appointment.status === "pending" && (
+                                      <>
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "approved"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-success-light"
+                                        >
+                                          <i class="fas fa-check"></i> Accept
+                                        </button>
+
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "rejected"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-danger-light"
+                                        >
+                                          <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* /Upcoming Appointment Tab  */}
-
-              {/* Today Appointment Tab  */}
               <div class="tab-pane" id="today-appointments">
                 <div class="card card-table mb-0">
                   <div class="card-body">
@@ -143,27 +224,87 @@ const DoctorHome = () => {
                           <tr>
                             <th>Patient Name</th>
                             <th>Appt Date</th>
-                            <th>Purpose</th>
-                            <th>Type</th>
+                            <th>Approval</th>
+                            <th>Payment</th>
                             <th class="text-center">Paid Amount</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td colSpan={5}>
-                              <DataTable
-                                columns={columns}
-                                data={paidAppointments}
-                                fixedHeader
-                                fixedHeaderScrollHeight="700px"
-                                selectableRows
-                                selectableRowsHighlight
-                                highlightOnHover
-                                pagination
-                              />
-                            </td>
-                          </tr>
+                          {todaysAppointments?.map((appointment) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <h2 class="table-avatar">
+                                    <a
+                                      href="patient-profile.html"
+                                      class="avatar avatar-sm mr-2"
+                                    >
+                                      {appointment.userImage ? (
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src={appointment.userImage}
+                                          alt="User"
+                                        />
+                                      ) : (
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="assets/img/patients/patient.jpg"
+                                          alt="User"
+                                        />
+                                      )}
+                                    </a>
+                                    <a href="patient-profile.html">
+                                      {appointment.userInfo}
+                                      {/* <span>#PT0016</span> */}
+                                    </a>
+                                  </h2>
+                                </td>
+                                <td>
+                                  {appointment.date}{" "}
+                                  <span class="d-block text-info">
+                                    {appointment.time}
+                                  </span>
+                                </td>
+                                <td>{appointment.status}</td>
+                                <td>{appointment.paymentStatus}</td>
+                                <td class="text-center">
+                                  Rs. {appointment.amount}
+                                </td>
+                                <td class="text-right">
+                                <div class="table-action">
+                                    {appointment.status === "pending" && (
+                                      <>
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "approved"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-success-light"
+                                        >
+                                          <i class="fas fa-check"></i> Accept
+                                        </button>
+
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "rejected"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-danger-light"
+                                        >
+                                          <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                      </>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
@@ -171,7 +312,7 @@ const DoctorHome = () => {
                 </div>
               </div>
             </div>
-          </>
+          </div>
         </div>
       </div>
     </Layout>

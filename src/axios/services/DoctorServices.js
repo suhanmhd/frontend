@@ -160,8 +160,9 @@ if(data.status){
         "Content-Type": "application/json",
       },
     };
-    const { data } = await axiosDoctorInstance.get(`/getDoctorDashDetails/${docId}`, config)
+    const { data } = await axiosBookingInstance.get(`/getDoctorDashDetails/${docId}`)
     if(data){
+      console.log(data);
       return data
     }
   }

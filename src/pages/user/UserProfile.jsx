@@ -18,7 +18,7 @@ import { storage } from "../../firebaseConfig";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const [imgstate, setImgstate] = useState(null)
+  const [imgstate, setImgstate] = useState(null);
   const [formValue, setFormValue] = useState([]);
   const user = localStorage.getItem("user");
 
@@ -26,31 +26,35 @@ const UserProfile = () => {
 
   const userId = JSON.parse(localStorage.getItem("user")).userExists?.id;
   const token = JSON.parse(localStorage.getItem("user")).token;
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getUserProfile(token, userId);
-      console.log(data)
+      console.log(data);
       setFormValue(data.userProfile);
     };
     fetchData();
   }, [userId, token]);
 
-  const handleSubmit = (e) => {e.preventDefault();
-    storage.ref('/images/'+imgstate.name).put(imgstate)
-    .then(({ref})=>{
-      ref.getDownloadURL().then(async(url)=>{
-      console.log(url);
-      
-      updateUserProfile({ ...formValue,image:url }, token);
-    navigate("/");
-    toast.success("Profile updated");
-      })
-   
-  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+if(imgstate){
+    storage
+      .ref("/images/" + imgstate.name)
+      .put(imgstate)
+      .then(({ ref }) => {
+        ref.getDownloadURL().then(async (url) => {
+          console.log(url);
 
+          updateUserProfile({ ...formValue, image: url }, token);
+          navigate("/");
+          toast.success("Profile updated");
+        });
+      });
+    }else{
+      alert("choose image")
+    }
 
-    
     // e.preventDefault();
     // console.log({...formValue});
     // updateUserProfile({ ...formValue }, token);
@@ -65,10 +69,7 @@ const UserProfile = () => {
   };
 
   return (
-    
     <>
-   
-      
       <Navbar />
 
       <div
@@ -77,7 +78,7 @@ const UserProfile = () => {
       >
         <h2>YOUR PROFILE</h2>
       </div>
-      
+
       {user && (
         <div
           style={{
@@ -88,18 +89,18 @@ const UserProfile = () => {
             marginTop: "50px",
           }}
         >
+          <div className="p-2">
+            <h1>MANAGE YOUR PROFILE</h1>
 
-<div className="p-2">
-        <h1>MANAGE YOUR PROFILE</h1>
-      
-        <div className="imgDiv">
-            <img src={image} width="100" height="100" alt=""/>
-        </div>
-        <input type="file" 
-        name="image"
-        onChange={(e)=>setImgstate(e.target.files[0])}
-        />
-      </div>
+            <div className="imgDiv">
+              <img src={image} width="100" height="100" alt="" />
+            </div>
+            <input
+              type="file"
+              name="image"
+              onChange={(e) => setImgstate(e.target.files[0])}
+            />
+          </div>
           <MDBCard alignment="left">
             {/* <MDBIcon fas icon="user-circle" className="fa-5x" /> */}
             <MDBCardBody>
@@ -207,8 +208,6 @@ const UserProfile = () => {
           </MDBCard>
         </div>
       )}
-
-
     </>
   );
 };

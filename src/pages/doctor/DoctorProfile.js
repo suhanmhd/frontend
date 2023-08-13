@@ -51,7 +51,6 @@ const DoctorProfile = () => {
   console.log(urlLink);
 
   const {
-    name,
     firstname,
     lastname,
     email,
@@ -97,8 +96,6 @@ const DoctorProfile = () => {
     fetchData();
   }, [docId, token]);
 
-
-
   timings && console.log(timings);
 
   const handleSubmit = async (e) => {
@@ -107,22 +104,22 @@ const DoctorProfile = () => {
     // updateDoctorProfile({ ...formValue });
     // navigate("/doctorHome");
     toast.success("Profile updated");
-    storage
-      .ref("/images/" + imgstate.name)
-      .put(imgstate)
-      .then(({ ref }) => {
-        ref.getDownloadURL().then(async (url) => {
-          console.log(url);
-          // updateDoctorProfile({ ...formValue });
+    if (imgstate) {
+      storage
+        .ref("/images/" + imgstate.name)
+        .put(imgstate)
+        .then(({ ref }) => {
+          ref.getDownloadURL().then(async (url) => {
+            console.log(url);
+            // updateDoctorProfile({ ...formValue });
 
+            updateDoctorProfile({ ...formValue, image: url }, token);
 
-          updateDoctorProfile({ ...formValue,image:url }, token);
-
-          // navigate(`/doctorProfile`);
-          // toast.success("Profile updated");
+            // navigate(`/doctorProfile`);
+            // toast.success("Profile updated");
+          });
         });
-      });
-      
+    }
   };
 
   const onInputChange = (e) => {
@@ -138,42 +135,41 @@ const DoctorProfile = () => {
       <div class="profile-sidebar col-md-7 col-lg-8 col-xl-9">
         <div class="card">
           <div class="card-body">
-          <MDBValidation
-                  onSubmit={handleSubmit}
-                  noValidate
-                  className="row g-3"
-                >
-            <h4 class="card-title">Personal Information</h4>
-            <div class="row form-row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <div class="change-avatar">
-                    <div class="profile-img">
-                      <img src={image} alt="" />
-                    </div>
-                    <div class="upload-img">
-                      <div class="change-photo-btn">
-                        <span>
-                          <i class="fa fa-upload"></i> Upload Photo
-                        </span>
-
-                        <input
-                          class="upload"
-                          type="file"
-                          name="image"
-                          onChange={(e) => setImgstate(e.target.files[0])}
-                        />
-                        
+            <MDBValidation
+              onSubmit={handleSubmit}
+              noValidate
+              className="row g-3"
+            >
+              <h4 class="card-title">Personal Information</h4>
+              <div class="row form-row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="change-avatar">
+                      <div class="profile-img">
+                        <img src={image} alt="" />
                       </div>
-                      <small class="form-text text-muted">
-                        Allowed JPG, GIF or PNG. Max size of 2MB
-                      </small>
+                      <div class="upload-img">
+                        <div class="change-photo-btn">
+                          <span>
+                            <i class="fa fa-upload"></i> Upload Photo
+                          </span>
+
+                          <input
+                            class="upload"
+                            type="file"
+                            name="image"
+                            onChange={(e) => setImgstate(e.target.files[0])}
+                          />
+                        </div>
+                        <small class="form-text text-muted">
+                          Allowed JPG, GIF or PNG. Max size of 2MB
+                        </small>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="col-md-6">
+                {/* <div class="col-md-6">
                 <InputField
                   label="Username"
                   type="text"
@@ -182,42 +178,41 @@ const DoctorProfile = () => {
                   onChange={onInputChange}
                   disabled
                 ></InputField>
-              </div>
+              </div> */}
 
-              <div class="col-md-6">
-                <InputField
-                  label="First Name"
-                  type="text"
-                  value={firstname}
-                  name="firstname"
-                  onChange={onInputChange}
-                  disabled
-                ></InputField>
-              </div>
+                <div class="col-md-6">
+                  <InputField
+                    label="First Name"
+                    type="text"
+                    value={firstname}
+                    name="firstname"
+                    onChange={onInputChange}
+                    disabled
+                  ></InputField>
+                </div>
 
-              <div class="col-md-6">
-                <InputField
-                  label="Last Name"
-                  type="text"
-                  value={lastname}
-                  name="lastname"
-                  onChange={onInputChange}
-                  disabled
-                ></InputField>
+                <div class="col-md-6">
+                  <InputField
+                    label="Last Name"
+                    type="text"
+                    value={lastname}
+                    name="lastname"
+                    onChange={onInputChange}
+                    disabled
+                  ></InputField>
+                </div>
+                <div class="col-md-6">
+                  <InputField
+                    label="Email"
+                    type="email"
+                    value={email}
+                    name="email"
+                    onChange={onInputChange}
+                    disabled
+                  ></InputField>
+                </div>
               </div>
-              <div class="col-md-6">
-                <InputField
-                  label="Email"
-                  type="email"
-                  value={email}
-                  name="email"
-                  onChange={onInputChange}
-                  disabled
-                ></InputField>
-              </div>
-            </div>
-          </MDBValidation>
-
+            </MDBValidation>
           </div>
         </div>
 
@@ -268,7 +263,7 @@ const DoctorProfile = () => {
         </div>
         <div class="submit-section submit-btn-bottom">
           <MDBBtn
-          onClick={handleSubmit}
+            onClick={handleSubmit}
             style={{ width: "100%" }}
             className="btn btn-primary submit-btn mt-2"
           >
@@ -294,9 +289,6 @@ const DoctorProfile = () => {
           onChange={(e) => setImgstate(e.target.files[0])}
         />
       </div>  */}
-
-
-    
     </Layout>
   );
 };

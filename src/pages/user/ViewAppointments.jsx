@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
+// import DataTable from "react-data-table-component";
 import { toast } from "react-toastify";
 import {
   cancelAppointment,
@@ -7,13 +7,15 @@ import {
   getUserAppointments,
 } from "../../axios/services/HomeServices";
 import Navbar from "../../components/Navbar";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 
 const ViewAppointments = () => {
   const [appointments, setAppointments] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const token = JSON.parse(localStorage.getItem("user")).token;
   const userId = JSON.parse(localStorage.getItem("user")).userExists.id;
+
+  console.log(appointments);
 
   const fetchData = async () => {
     console.log(userId);
@@ -23,18 +25,14 @@ const ViewAppointments = () => {
 
   useEffect(() => {
     fetchData();
-    fetchData();
-    fetchData();
-    fetchData();
   }, []);
-  
 
   console.log(appointments);
 
   // function to handle appointment cancellation
-  const cancel = () => {
-    setIsModalOpen(true);
-  };
+  // const cancel = () => {
+  //   setIsModalOpen(true);
+  // };
 
   const confirmCancellation = async (id, status) => {
     try {
@@ -46,14 +44,9 @@ const ViewAppointments = () => {
       );
       console.log(response);
       if (response) {
-        // fetchData();
-        // fetchData();
-        // fetchData();
         fetchData();
         toast.success(response.response);
-
-       
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
       }
     } catch (error) {
       console.log(error);
@@ -145,24 +138,22 @@ const ViewAppointments = () => {
       selector: (row) => row.id,
     },
 
-
-
-    // 
+    //
     {
       name: "Block/Unblock",
       selector: (row) => {
         return (
           <div>
             {" "}
-            {row.status === "pending"?(
+            {row.status === "pending" ? (
               <button
                 className="btn btn-success"
                 onClick={() => confirmCancellation(row.id)}
               >
-              CANCEL
+                CANCEL
               </button>
             ) : (
-              <button className="btn btn-danger" disabled >
+              <button className="btn btn-danger" disabled>
                 CANCEL
               </button>
             )}
@@ -171,18 +162,12 @@ const ViewAppointments = () => {
       },
     },
 
-    // 
-
-
-
-
-
-
+    //
 
     // {
     //   name: "Action",
     //   selector: (row) => {
-       
+
     //     return (
     //       <div>
     //         {" "}
@@ -191,12 +176,12 @@ const ViewAppointments = () => {
     //             <button className="btn btn-danger" onClick={cancel}>
     //               CANCEL
     //             </button>
-               
+
     //             <Modal isOpen={isModalOpen} style={customStyles}>
     //               <h2>Are you sure you want to cancel this appointment?</h2>
-                 
+
     //               <button
-                  
+
     //                 onClick={() => confirmCancellation(row.id, "cancelled")}
     //                 style={buttonStyles}
     //               >
@@ -224,7 +209,7 @@ const ViewAppointments = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid p-2">
+      {/* <div className="container-fluid p-2">
         <h1>MY APPOINTMENTS</h1>
       </div>
       <div className="container">
@@ -239,7 +224,282 @@ const ViewAppointments = () => {
           highlightOnHover
           pagination
         />
+      </div> */}
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-7 col-lg-8 col-xl-9">
+              <div class="card">
+                <div class="card-body pt-0">
+                  <nav class="user-tabs mb-4">
+                    <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link active"
+                          href="#pat_appointments"
+                          data-toggle="tab"
+                        >
+                          Appointments
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          href="#pat_prescriptions"
+                          data-toggle="tab"
+                        >
+                          Prescriptions
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          href="#pat_medical_records"
+                          data-toggle="tab"
+                        >
+                          <span class="med-records">Medical Records</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+
+                  <div class="tab-content pt-0">
+                    <div
+                      id="pat_appointments"
+                      class="tab-pane fade show active"
+                    >
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Doctor</th>
+                                  <th>Appt Date</th>
+                                  {/* <th>Booking Date</th> */}
+                                  <th>Amount</th>
+                                  <th>Status</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {appointments &&
+                                  appointments.map((appointment) => {
+                                    return (
+                                      <tr>
+                                        <td>
+                                          <h2 class="table-avatar">
+                                            <a
+                                              href="doctor-profile.html"
+                                              class="avatar avatar-sm mr-2"
+                                            >
+                                              {appointment.userImage ? (
+                                                <img
+                                                  class="avatar-img rounded-circle"
+                                                  src={appointment.userImage}
+                                                  alt="User"
+                                                />
+                                              ) : (
+                                                <img
+                                                  class="avatar-img rounded-circle"
+                                                  src="assets/img/doctors/doctor-thumb-01.jpg"
+                                                  alt="User"
+                                                />
+                                              )}
+                                            </a>
+                                            <a href="doctor-profile.html">
+                                              Dr. {appointment.doctorInfo}
+                                              {/* <span>Dental</span> */}
+                                            </a>
+                                          </h2>
+                                        </td>
+                                        <td>
+                                          {appointment.date}{" "}
+                                          <span class="d-block text-info">
+                                            {appointment.time}
+                                          </span>
+                                        </td>
+                                        {/* <td>12 Nov 2019</td> */}
+                                        <td>Rs. {appointment.amount}</td>
+                                        {appointment.status === "approved" ? (
+                                          <td>
+                                            <span class="badge badge-pill bg-success-light">
+                                              approved
+                                            </span>
+                                          </td>
+                                        ) : appointment.status ===
+                                          "rejected" ? (
+                                          <td>
+                                            <span class="badge badge-pill bg-danger-light">
+                                              rejected
+                                            </span>
+                                          </td>
+                                        ) : (
+                                          <td>
+                                            <span class="badge badge-pill bg-primary-light">
+                                              pending
+                                            </span>
+                                          </td>
+                                        )}
+                                        {appointment.status === "pending" && (
+                                          <td class="text-right">
+                                            <div class="table-action">
+                                              <button
+                                                onClick={() =>
+                                                  confirmCancellation(
+                                                    appointment.id
+                                                  )
+                                                }
+                                                class="btn btn-sm bg-danger-light"
+                                              >
+                                                <i class="fas fa-times"></i>{" "}
+                                                Cancel
+                                              </button>
+                                            </div>
+                                          </td>
+                                        )}
+                                      </tr>
+                                    );
+                                  })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="pat_prescriptions">
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                              <thead>
+                                <tr>
+                                  <th>Date </th>
+                                  <th>Name</th>
+                                  <th>Created by </th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>14 Nov 2019</td>
+                                  <td>Prescription 1</td>
+                                  <td>
+                                    <h2 class="table-avatar">
+                                      <a
+                                        href="doctor-profile.html"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="assets/img/doctors/doctor-thumb-01.jpg"
+                                          alt="User Image"
+                                        />
+                                      </a>
+                                      <a href="doctor-profile.html">
+                                        Dr. Ruby Perrin <span>Dental</span>
+                                      </a>
+                                    </h2>
+                                  </td>
+                                  <td class="text-right">
+                                    <div class="table-action">
+                                      <a
+                                        href="javascript:void(0);"
+                                        class="btn btn-sm bg-primary-light"
+                                      >
+                                        <i class="fas fa-print"></i> Print
+                                      </a>
+                                      <a
+                                        href="javascript:void(0);"
+                                        class="btn btn-sm bg-info-light"
+                                      >
+                                        <i class="far fa-eye"></i> View
+                                      </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pat_medical_records" class="tab-pane fade">
+                      <div class="card card-table mb-0">
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-hover table-center mb-0">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Date </th>
+                                  <th>Description</th>
+                                  <th>Attachment</th>
+                                  <th>Created</th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <a href="javascript:void(0);">#MR-0010</a>
+                                  </td>
+                                  <td>14 Nov 2019</td>
+                                  <td>Dental Filling</td>
+                                  <td>
+                                    <a href="#">dental-test.pdf</a>
+                                  </td>
+                                  <td>
+                                    <h2 class="table-avatar">
+                                      <a
+                                        href="doctor-profile.html"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        <img
+                                          class="avatar-img rounded-circle"
+                                          src="assets/img/doctors/doctor-thumb-01.jpg"
+                                          alt="User Image"
+                                        />
+                                      </a>
+                                      <a href="doctor-profile.html">
+                                        Dr. Ruby Perrin <span>Dental</span>
+                                      </a>
+                                    </h2>
+                                  </td>
+                                  <td class="text-right">
+                                    <div class="table-action">
+                                      <a
+                                        href="javascript:void(0);"
+                                        class="btn btn-sm bg-info-light"
+                                      >
+                                        <i class="far fa-eye"></i> View
+                                      </a>
+                                      <a
+                                        href="javascript:void(0);"
+                                        class="btn btn-sm bg-primary-light"
+                                      >
+                                        <i class="fas fa-print"></i> Print
+                                      </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
     </>
   );
 };

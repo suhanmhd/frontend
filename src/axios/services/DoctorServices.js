@@ -44,6 +44,23 @@ export const getDoctorByCategory = async (token,departmentName) => {
     }
   }
 
+
+export const addMedicinePrescription = async(formData,token)=>{
+  console.log(formData);
+
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " +token,
+      "Content-Type": "application/json",
+    },
+  };
+  const { data } = await axiosDoctorInstance.post(`/addPrescription`, formData, config);
+  if (data) {
+    return data;
+  }
+
+}
   export const getSingleDoctor = async (docId) => {
     const { data } = await axiosUserInstance.get(`/getSingleDoctor/${docId}`);
     if (data) {
@@ -225,3 +242,34 @@ if(data.status){
           return data
         }
       };
+
+
+      
+      export const getUserById = async (token, userId) => {
+        const config = {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axiosDoctorInstance.get(`/getSingleUser/${userId}`, config)
+        if(data){
+          return data
+        }
+      }
+
+
+      export const getUserAppointmentDetailsToDoctor = async (token, userId) => {
+        const config = {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axiosBookingInstance.get(`/getUserAppointments/${userId}`,config)
+        if(data){
+          return data
+        }
+      }

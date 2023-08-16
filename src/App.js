@@ -42,6 +42,8 @@ import SetNewPassword from './pages/user/SetNewPassword';
 import E404 from './pages/E404/E404';
 import SheduleTimings from './pages/doctor/SheduleTimings';
 import BookAppointments from './pages/user/BookAppointments';
+import PatientProfile from './pages/doctor/PatientProfile';
+import AddPrescription from './components/Doctor/AddPrescription';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -91,6 +93,8 @@ const App = () => {
          >
         <Route path="/doctorHome" element={<DoctorHome />} />
         <Route path="/appointment-requests" element={<AppointmentRequests />} />
+        <Route path="/patient-profile/:id" element={<PatientProfile />} />
+        <Route path="/add-prescription/:id" element={<AddPrescription />} />
         <Route path="/message-requests" element={<MessageRequestsPage />} />
         </Route>
       </Routes>

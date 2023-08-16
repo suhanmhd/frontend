@@ -190,11 +190,7 @@ export const updateUserProfile = async (formData, token) => {
       "Content-Type": "application/json",
     },
   };
-  const { data } = await axiosUserInstance.post(
-    `/updateUserProfile`,
-    formData,
-    config
-  );
+  const { data } = await axiosUserInstance.post( `/updateUserProfile`, formData,config);
   if (data) {
     return data;
   }
@@ -318,3 +314,20 @@ export const getAllDoctors = async (searchTerm) => {
 };
 
 
+
+export const addRatingAndReview = async(reviewData,token)=>{
+  console.log(reviewData,token);
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }
+  const { data } = await axiosUserInstance.post( `/addReview`, reviewData,config);
+  if(data){
+    console.log(data);
+    return data;
+  }
+
+}

@@ -12,6 +12,7 @@ import Navbar from "../../components/Navbar";
 import "./DoctorBooking.css";
 import UserLayout from "../../components/User/UserLayout";
 import AddReview from "../../components/User/AddReview";
+import CommentList from "./CommentList";
 
 const DoctorBooking = () => {
   const { docId } = useParams();
@@ -83,9 +84,10 @@ const DoctorBooking = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSingleDoctor(docId);
-      console.log("hitted");
+      console.log(data,"hitted");
 
       setDoctor(data.doctorDetails);
+
     };
     fetchData();
   }, [docId]);
@@ -496,7 +498,11 @@ const DoctorBooking = () => {
                   <div role="tabpanel" id="doc_reviews" class="tab-pane fade">
                     {/* <!-- Review Listing --> */}
                     <div class="widget review-listing">
+                    <CommentList reviews={doctor.reviews} />
                       <ul class="comments-list">
+
+
+
                         {/* <!-- Comment List --> */}
                         <li>
                           <div class="comment">
@@ -537,40 +543,7 @@ const DoctorBooking = () => {
                         {/* <!-- /Comment List --> */}
 
                         {/* <!-- Comment List --> */}
-                        <li>
-                          <div class="comment">
-                            <img
-                              class="avatar avatar-sm rounded-circle"
-                              alt="User Image"
-                              src="assets/img/patients/patient2.jpg"
-                            />
-                            <div class="comment-body">
-                              <div class="meta-data">
-                                <span class="comment-author">
-                                  Travis Trimble
-                                </span>
-                                {/* <span class="comment-date">
-                                  Reviewed 4 Days ago
-                                </span> */}
-                                <div class="review-count rating">
-                                  <i class="fas fa-star filled"></i>
-                                  <i class="fas fa-star filled"></i>
-                                  <i class="fas fa-star filled"></i>
-                                  <i class="fas fa-star filled"></i>
-                                  <i class="fas fa-star"></i>
-                                </div>
-                              </div>
-                              <p class="comment-content">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut
-                                enim ad minim veniam, quis nostrud exercitation.
-                                Curabitur non nulla sit amet nisl tempus
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        {/* <!-- /Comment List --> */}
+              
                       </ul>
 
                       {/* <!-- Show All --> */}
@@ -586,11 +559,11 @@ const DoctorBooking = () => {
                     {/* <!-- Write Review --> */}
                     <div class="write-review">
                       <h4>
-                        Write a review for <strong>Dr. Darren Elder</strong>
+                        Write a review for <strong> Dr.{doctor.firstname} {doctor.lastname}</strong>
                       </h4>
 
                       {/* <!-- Write Review Form --> */}
-                      <AddReview />
+                      <AddReview docId={docId} />
                       {/* <!-- /Write Review Form --> */}
                     </div>
                     {/* <!-- /Write Review --> */}

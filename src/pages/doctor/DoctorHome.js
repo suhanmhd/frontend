@@ -9,6 +9,7 @@ import {
 import DoctorCards from "../../components/Doctor/DoctorHome/DoctorCards/DoctorCards";
 import Layout from "../../components/Doctor/Layout";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const DoctorHome = () => {
   const [appointments, setAppointments] = useState([]);
@@ -141,8 +142,8 @@ const DoctorHome = () => {
                               <tr>
                                 <td>
                                   <h2 class="table-avatar">
-                                    <a
-                                      href="patient-profile.html"
+                                    <Link to={`/patient-profile/${appointment.userId}`}>
+                                    <div
                                       class="avatar avatar-sm mr-2"
                                     >
                                       {appointment.userImage ? (
@@ -154,14 +155,15 @@ const DoctorHome = () => {
                                       ) : (
                                         <img
                                           class="avatar-img rounded-circle"
-                                          src="assets/img/patients/patient6.jpg"
+                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
                                           alt="User"
                                         />
                                       )}
-                                    </a>
-                                    <a href="patient-profile.html">
+                                    </div>
+                                    <a>
                                       {appointment.userInfo}
                                     </a>
+                                    </Link>
                                   </h2>
                                 </td>
                                 <td>
@@ -236,6 +238,7 @@ const DoctorHome = () => {
                               <tr>
                                 <td>
                                   <h2 class="table-avatar">
+                                  <Link to={`/patient-profile/${appointment.userId}`}>
                                     <a
                                       href="patient-profile.html"
                                       class="avatar avatar-sm mr-2"
@@ -249,7 +252,7 @@ const DoctorHome = () => {
                                       ) : (
                                         <img
                                           class="avatar-img rounded-circle"
-                                          src="assets/img/patients/patient.jpg"
+                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
                                           alt="User"
                                         />
                                       )}
@@ -258,6 +261,7 @@ const DoctorHome = () => {
                                       {appointment.userInfo}
                                       {/* <span>#PT0016</span> */}
                                     </a>
+                                    </Link>
                                   </h2>
                                 </td>
                                 <td>

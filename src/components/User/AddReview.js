@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { addRatingAndReview } from "../../axios/services/HomeServices";
 
-const AddReview = () => {
+const AddReview = ({ docId }) => {
   const [review, setReview] = useState("");
   const [selectedRating, setSelectedRating] = useState('');
 
+  const userId = JSON.parse(localStorage.getItem("user")).userExists?.id;
+  const token = JSON.parse(localStorage.getItem("user")).token;
   const handleRatingChange = (event) => {
     setSelectedRating(event.target.value);
   };
@@ -16,8 +19,14 @@ const AddReview = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(review && selectedRating){
+      const reviewData = {
+        userId: userId, 
+        docId: docId, 
+        rating: selectedRating,
+        review: review,
+      };
         console.log(review, selectedRating);
-        // const response = await submitRating(review, selectedRating)
+     const response = await addRatingAndReview(reviewData,token)
        
     }else{
         alert("please add your rating and review")

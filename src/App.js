@@ -44,6 +44,8 @@ import SheduleTimings from './pages/doctor/SheduleTimings';
 import BookAppointments from './pages/user/BookAppointments';
 import PatientProfile from './pages/doctor/PatientProfile';
 import AddPrescription from './components/Doctor/AddPrescription';
+import { VideoCall } from '@mui/icons-material';
+import VideoCalls from './components/Doctor/VideoCall/VideoCalls';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -96,6 +98,7 @@ const App = () => {
         <Route path="/patient-profile/:id" element={<PatientProfile />} />
         <Route path="/add-prescription/:id" element={<AddPrescription />} />
         <Route path="/message-requests" element={<MessageRequestsPage />} />
+        <Route path="/videocall/:appointment" element={<VideoCalls />} />
         </Route>
       </Routes>
       <Footer />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import DataTable from "react-data-table-component";
 import { toast } from "react-toastify";
 import {
@@ -7,15 +7,108 @@ import {
   getUserAppointments,
 } from "../../axios/services/HomeServices";
 import Navbar from "../../components/Navbar";
+import SockJS from "sockjs-client/dist/sockjs";
+import { over } from "stompjs";
 // import Modal from "react-modal";
 
 const ViewAppointments = () => {
   const [appointments, setAppointments] = useState("");
   // const [isModalOpen, setIsModalOpen] = useState(false);
+  const sock = useRef();
+  const [connected, setConnected] = useState(false);
+  const [stompClient, setStompClient] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [subscription, setSubscription] = useState(null);
+
   const token = JSON.parse(localStorage.getItem("user")).token;
   const userId = JSON.parse(localStorage.getItem("user")).userExists.id;
+  // useEffect(() => {
+  //   const connect = () => {
+  //     sock.current = new SockJS("http://localhost:8088/ws");
+  //     const temp = over(sock.current);
+  //     setStompClient(temp);
+  //     temp.connect({}, onConnect, onErr);
+  //   };
+
+  //   const onErr = (error) => {
+  //     console.log("on Error", error);
+  //   };
+
+  //   const onConnect = () => {
+  //     setConnected(true);
+      
+  //     const subscription = stompClient.subscribe(
+  //       "/videocall/" + userId.toString(),
+  //       onMessageRecive
+  //     );
+  //     setSubscription(subscription);
+  //   };
+
+  //   connect();
+
+  //   return () => {
+  //     stompClient?.disconnect();
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    const connect = () => {
+      sock.current = new SockJS("http://localhost:8088/ws");
+      const temp = over(sock.current);
+      setStompClient(temp);
+      temp.connect({}, onConnect, onErr);
+    };
+
+    const onErr = (error) => {
+      console.log("on Error", error);
+    };
+
+    const onConnect = () => {
+      setConnected(true);
+    };
+
+    connect();
+
+    return () => {
+      stompClient?.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (connected && stompClient) {
+      console.log(connected, stompClient);
+
+      const subscription = stompClient.subscribe(
+        "/videocall/" + userId.toString(),
+        onMessageRecive
+      );
+      console.log(subscription);
+
+   
+    }
+  });
+  const onMessageRecive = (payload) => {
+    console.log("onMessageRecive ............. -----------", payload);
+
+    console.log("recive message -  - - - - - - -  -", JSON.parse(payload.body));
+
+    const recievedMessage = JSON.parse(payload.body);
+    console.log(recievedMessage);
+
+    setMessages([recievedMessage]);
+  };
+
+  console.log(userId);
 
   console.log(appointments);
+
+  const navigateToLink = () => {
+    const latestMessage = messages[messages.length - 1];
+    if (latestMessage) {
+      const link = latestMessage.text; // Assuming the link is in latestMessage.text
+      window.open(link, "_blank"); // Open the link in a new tab/window
+    }
+  };
 
   const fetchData = async () => {
     console.log(userId);
@@ -294,19 +387,7 @@ const ViewAppointments = () => {
                                               href="doctor-profile.html"
                                               class="avatar avatar-sm mr-2"
                                             >
-                                              {appointment.userImage ? (
-                                                <img
-                                                  class="avatar-img rounded-circle"
-                                                  src={appointment.userImage}
-                                                  alt="User"
-                                                />
-                                              ) : (
-                                                <img
-                                                  class="avatar-img rounded-circle"
-                                                  src="assets/img/doctors/doctor-thumb-01.jpg"
-                                                  alt="User"
-                                                />
-                                              )}
+                                              {/* ... (Avatar image) */}
                                             </a>
                                             <a href="doctor-profile.html">
                                               Dr. {appointment.doctorInfo}
@@ -320,7 +401,6 @@ const ViewAppointments = () => {
                                             {appointment.time}
                                           </span>
                                         </td>
-                                        {/* <td>12 Nov 2019</td> */}
                                         <td>Rs. {appointment.amount}</td>
                                         {appointment.status === "approved" ? (
                                           <td>
@@ -359,6 +439,22 @@ const ViewAppointments = () => {
                                             </div>
                                           </td>
                                         )}
+                                        {appointment.status === "approved" &&
+                                          messages.length > 0 &&
+                                          messages[messages.length - 1]
+                                            .senderId === appointment.id && (
+                                            <td class="text-right">
+                                              <div class="table-action">
+                                                <button
+                                                  onClick={navigateToLink}
+                                                  class="btn btn-sm bg-success-light"
+                                                >
+                                                  <i class="fas fa-video"></i>{" "}
+                                                  Join Now
+                                                </button>
+                                              </div>
+                                            </td>
+                                          )}
                                       </tr>
                                     );
                                   })}
@@ -499,7 +595,6 @@ const ViewAppointments = () => {
           </div>
         </div>
       </div>
-
     </>
   );
 };

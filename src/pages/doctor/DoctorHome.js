@@ -9,12 +9,13 @@ import {
 import DoctorCards from "../../components/Doctor/DoctorHome/DoctorCards/DoctorCards";
 import Layout from "../../components/Doctor/Layout";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DoctorHome = () => {
   const [appointments, setAppointments] = useState([]);
   // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [reason, setReason] = useState("");
+  const navigate = useNavigate();
   const [todaysAppointments, setTodaysAppointments] = useState([]);
   const token = JSON.parse(localStorage.getItem("doctor")).token;
 
@@ -52,6 +53,12 @@ const DoctorHome = () => {
     }
   };
 
+// const roomID ="abcd"
+  const  handleStartVideoCall =(appointment)=>{
+    console.log("clicked");
+    navigate(`/videocall/${encodeURIComponent(
+      JSON.stringify(appointment))}`)
+  }
   // const columns = [
   //   {
   //     name: "Token number",
@@ -142,27 +149,25 @@ const DoctorHome = () => {
                               <tr>
                                 <td>
                                   <h2 class="table-avatar">
-                                    <Link to={`/patient-profile/${appointment.userId}`}>
-                                    <div
-                                      class="avatar avatar-sm mr-2"
+                                    <Link
+                                      to={`/patient-profile/${appointment.userId}`}
                                     >
-                                      {appointment.userImage ? (
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src={appointment.userImage}
-                                          alt="User"
-                                        />
-                                      ) : (
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
-                                          alt="User"
-                                        />
-                                      )}
-                                    </div>
-                                    <a>
-                                      {appointment.userInfo}
-                                    </a>
+                                      <div class="avatar avatar-sm mr-2">
+                                        {appointment.userImage ? (
+                                          <img
+                                            class="avatar-img rounded-circle"
+                                            src={appointment.userImage}
+                                            alt="User"
+                                          />
+                                        ) : (
+                                          <img
+                                            class="avatar-img rounded-circle"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
+                                            alt="User"
+                                          />
+                                        )}
+                                      </div>
+                                      <a>{appointment.userInfo}</a>
                                     </Link>
                                   </h2>
                                 </td>
@@ -238,29 +243,31 @@ const DoctorHome = () => {
                               <tr>
                                 <td>
                                   <h2 class="table-avatar">
-                                  <Link to={`/patient-profile/${appointment.userId}`}>
-                                    <a
-                                      href="patient-profile.html"
-                                      class="avatar avatar-sm mr-2"
+                                    <Link
+                                      to={`/patient-profile/${appointment.userId}`}
                                     >
-                                      {appointment.userImage ? (
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src={appointment.userImage}
-                                          alt="User"
-                                        />
-                                      ) : (
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
-                                          alt="User"
-                                        />
-                                      )}
-                                    </a>
-                                    <a href="patient-profile.html">
-                                      {appointment.userInfo}
-                                      {/* <span>#PT0016</span> */}
-                                    </a>
+                                      <a
+                                        href="patient-profile.html"
+                                        class="avatar avatar-sm mr-2"
+                                      >
+                                        {appointment.userImage ? (
+                                          <img
+                                            class="avatar-img rounded-circle"
+                                            src={appointment.userImage}
+                                            alt="User"
+                                          />
+                                        ) : (
+                                          <img
+                                            class="avatar-img rounded-circle"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1lT_yeCLgs_2_KigfJY4uQMDnxIKJItb3yQ&usqp=CAU"
+                                            alt="User"
+                                          />
+                                        )}
+                                      </a>
+                                      <a href="patient-profile.html">
+                                        {appointment.userInfo}
+                                        {/* <span>#PT0016</span> */}
+                                      </a>
                                     </Link>
                                   </h2>
                                 </td>
@@ -275,7 +282,7 @@ const DoctorHome = () => {
                                 <td class="text-center">
                                   Rs. {appointment.amount}
                                 </td>
-                                <td class="text-right">
+                                {/* <td class="text-right">
                                 <div class="table-action">
                                     {appointment.status === "pending" && (
                                       <>
@@ -303,6 +310,47 @@ const DoctorHome = () => {
                                           <i class="fas fa-times"></i> Cancel
                                         </button>
                                       </>
+                                    )}
+                                  </div>
+                                </td> */}
+                                <td class="text-right">
+                                  <div class="table-action">
+                                    {appointment.status === "pending" ? (
+                                      <>
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "approved"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-success-light"
+                                        >
+                                          <i class="fas fa-check"></i> Accept
+                                        </button>
+
+                                        <button
+                                          onClick={() =>
+                                            handleStatus(
+                                              appointment,
+                                              "rejected"
+                                            )
+                                          }
+                                          class="btn btn-sm bg-danger-light"
+                                        >
+                                          <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <button
+                                        onClick={() =>
+                                          handleStartVideoCall(appointment)
+                                        }
+                                        class="btn btn-sm bg-primary-light"
+                                      >
+                                        <i class="fas fa-video"></i> Start Video
+                                        Call
+                                      </button>
                                     )}
                                   </div>
                                 </td>

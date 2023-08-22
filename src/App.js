@@ -44,8 +44,9 @@ import SheduleTimings from './pages/doctor/SheduleTimings';
 import BookAppointments from './pages/user/BookAppointments';
 import PatientProfile from './pages/doctor/PatientProfile';
 import AddPrescription from './components/Doctor/AddPrescription';
-import { VideoCall } from '@mui/icons-material';
+// import { VideoCall } from '@mui/icons-material';
 import VideoCalls from './components/Doctor/VideoCall/VideoCalls';
+import ViewSinglePrescription from './pages/user/ViewSinglePrescription';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -84,6 +85,7 @@ const App = () => {
 
         <Route element={<UserPrivateRoutes />}>
         <Route path="/view-appointments" element={<ViewAppointments />} />
+        <Route path="/view-single-prescription/:prescriptionId" element={<ViewSinglePrescription/>} />
         <Route path="/payment-page/:id" element={<PaymentPage />} />
         <Route path="/paymentSuccess" element={<PaymentSuccessPage />} />
         <Route path="/messenger" element={<Messenger />} />

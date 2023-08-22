@@ -110,7 +110,7 @@ const DoctorBooking = () => {
                     <div class="doctor-img">
 
                       <img
-                        src="/assets/img/doctors/doctor-thumb-02.jpg"
+                        src={doctor.image || "https://img.freepik.com/premium-vector/avatar-bearded-doctor-doctor-with-stethoscope-vector-illustrationxa_276184-31.jpg"}
                         class="img-fluid"
                         alt="User Image"
                       />
@@ -122,30 +122,34 @@ const DoctorBooking = () => {
                         Dr. {doctor.firstname} {doctor.lastname}
                       </h4>
                       <p class="doc-speciality">
-                        {doctor.specialization?.category}
+                      {/* <span>{doctor.specialization}</span> */}
                       </p>
                       <p class="doc-department">
-                        <img
+                        {/* <img
                           src="/assets/img/specialities/specialities-05.png"
                           class="img-fluid"
-                          alt="Speciality"
-                        />
-                        Dentist
+                          alt="Speciality" */}
+                        {/* /> */}
+                        {doctor.specialization}
                       </p>
-                      <div class="rating">
-                        <i class="fas fa-star filled"></i>
-                        <i class="fas fa-star filled"></i>
-                        <i class="fas fa-star filled"></i>
-                        <i class="fas fa-star filled"></i>
-                        <i class="fas fa-star"></i>
-                        <span class="d-inline-block average-rating">(35)</span>
-                      </div>
+                      <div className="rating">
+  {Array.from({ length: 5 }).map((_, index) => (
+    <i
+      key={index}
+      className={`fas fa-star ${index < doctor.averageRating ? "filled" : ""}`}
+    ></i>
+  ))}
+  <span className="d-inline-block average-rating">
+    ({doctor.averageRating})
+  </span>
+</div>
+
                       <div class="clinic-details">
                         <p class="doc-location">
-                          <i class="fas fa-map-marker-alt"></i> Newyork, USA -{" "}
+                          <i class="fas fa-map-marker-alt"></i>{doctor.place}-{" "}
                           <a href="javascript:void(0);">Get Directions</a>
                         </p>
-                        <ul class="clinic-gallery">
+                        {/* <ul class="clinic-gallery">
                           <li>
                             <a
                               href="/assets/img/features/feature-01.jpg"
@@ -190,7 +194,7 @@ const DoctorBooking = () => {
                               />
                             </a>
                           </li>
-                        </ul>
+                        </ul> */}
                       </div>
                       <div class="clinic-services">
                         <span>{doctor.specialization}</span>
@@ -202,14 +206,14 @@ const DoctorBooking = () => {
                     <div class="clini-infos">
                       <ul>
                         <li>
-                          <i class="far fa-thumbs-up"></i> 99%
+                          <i class="far fa-thumbs-up"></i> 0%
                         </li>
                         <li>
-                          <i class="far fa-comment"></i> 35 Feedback
+                          <i class="far fa-comment"></i> {doctor.email}
                         </li>
                         <li>
                           <i class="fas fa-map-marker-alt"></i>{" "}
-                          {/* {doctor?.location ? doctor?.location : "Kerala"} */}
+                          {doctor.place}
                         </li>
                         <li>
                           <i class="far fa-money-bill-alt"></i>Rs.{" "}
@@ -287,16 +291,8 @@ const DoctorBooking = () => {
                         {/* <!-- About Details --> */}
                         <div class="widget about-widget">
                           <h4 class="widget-title">About Me</h4>
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum.
+                          <p>{doctor.about}
+                            
                           </p>
                         </div>
                         {/* <!-- /About Details --> */}

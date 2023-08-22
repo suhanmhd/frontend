@@ -19,17 +19,20 @@ const DoctorCard = ({doctor}) => {
             <h4 class="doc-name"><a href="doctor-profile.html">Dr. {doctor.firstname}</a></h4>
             {/* <p class="doc-speciality">BDS, MDS - Oral & Maxillofacial Surgery</p> */}
             {/* <h5 class="doc-department"><img src="assets/img/specialities/specialities-05.png" class="img-fluid" alt="Speciality"/>Dentist</h5> */}
-            <div class="rating">
-              <i class="fas fa-star filled"></i>
-              <i class="fas fa-star filled"></i>
-              <i class="fas fa-star filled"></i>
-              <i class="fas fa-star filled"></i>
-              <i class="fas fa-star"></i>
-              <span class="d-inline-block average-rating">(35)</span>
-            </div>
+            <div className="rating">
+  {Array.from({ length: 5 }).map((_, index) => (
+    <i
+      key={index}
+      className={`fas fa-star ${index < doctor.averageRating ? "filled" : ""}`}
+    ></i>
+  ))}
+  <span className="d-inline-block average-rating">
+    ({doctor.averageRating})
+  </span>
+</div>
             <div class="clinic-details">
               {/* <p class="doc-location"><i class="fas fa-map-marker-alt"></i> Newyork, USA</p> */}
-              <ul class="clinic-gallery">
+              {/* <ul class="clinic-gallery">
                 <li>
                   <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery">
                     <img src="assets/img/features/feature-01.jpg" alt="Feature"/>
@@ -50,7 +53,7 @@ const DoctorCard = ({doctor}) => {
                     <img src="assets/img/features/feature-04.jpg" alt="Feature"/>
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
             <div class="clinic-services">
               <span>{doctor.specialization}</span>
@@ -61,9 +64,9 @@ const DoctorCard = ({doctor}) => {
         <div class="doc-info-right">
           <div class="clini-infos">
             <ul>
-              <li><i class="far fa-thumbs-up"></i> 100%</li>
-              <li><i class="far fa-comment"></i> 35 Feedback</li>
-              <li><i class="fas fa-map-marker-alt"></i>{doctor.email}</li>
+              <li><i class="far fa-thumbs-up"></i> 0%</li>
+              <li><i class="far fa-comment"></i> {doctor.email}</li>
+              <li><i class="fas fa-map-marker-alt"></i>{doctor.place}</li>
               <li><i class="far fa-money-bill-alt"></i>  {doctor.feesPerConsultation}<i class="fas fa-info-circle" data-toggle="tooltip" title="Lorem Ipsum"></i></li>
             </ul>
           </div>

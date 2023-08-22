@@ -7,7 +7,7 @@ export default function Wallet() {
   const [details, setDetails] = useState("");
 
   const token = JSON.parse(localStorage.getItem("user"))?.token;
-  const userId = JSON.parse(localStorage.getItem("user"))?.userExists?._id;
+  const userId = JSON.parse(localStorage.getItem("user"))?.userExists?.id;
 
   const fetchData = async () => {
     const data = await getUserProfile(token, userId);

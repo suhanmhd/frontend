@@ -52,8 +52,10 @@ const DoctorProfile = () => {
 
   const {
     firstname,
+    
     lastname,
     email,
+    place,
     experience,
     timings,
     about,
@@ -211,6 +213,16 @@ const DoctorProfile = () => {
                     disabled
                   ></InputField>
                 </div>
+                <div class="col-md-6">
+                  <InputField
+                    label="Location"
+                    type="text"
+                    value={place}
+                    name="place"
+                    onChange={onInputChange}
+                  
+                  ></InputField>
+                </div>
               </div>
             </MDBValidation>
           </div>
@@ -225,6 +237,7 @@ const DoctorProfile = () => {
                 class="form-control"
                 name="about"
                 value={about}
+                onChange={onInputChange}
                 rows="5"
               ></textarea>
             </div>

@@ -1,4 +1,4 @@
-import { axiosAdminInstance, axiosDoctorInstance, axiosUserInstance } from "../axios";
+import { axiosAdminInstance, axiosBookingInstance, axiosDoctorInstance, axiosUserInstance } from "../axios";
 
 export const getUserInfo = async (token) => {
   const config = {
@@ -279,25 +279,27 @@ export const getAllAppointments = async (token) => {
       "Content-Type": "application/json",
     },
   };
-  const { data } = await axiosAdminInstance.get(`/allAppointments`, config);
-  if (data.status) {
+  const { data } = await axiosBookingInstance.get(`/allAppointments`, config);
+  if (data) {
     return data;
   }
 };
 
-export const getPaidAppointments = async (token) => {
-  const config = {
-    headers: {
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  };
-  const { data } = await axiosAdminInstance.get(`/getPaidAppointments`, config);
-  if (data.status) {
-    return data;
-  } 
-}
+// export const getPaidAppointments = async (token) => {
+  // console.log("eppidra");
+  // const config = {
+  //   headers: {
+  //     Accept: "application/json",
+  //     Authorization: "Bearer " + token,
+  //     "Content-Type": "application/json",
+  //   },
+  // };
+  // const { data } = await axiosBookingInstance.get(`/getPaidAppointmens`, config);
+  // if (data) {
+  //   console.log(data);
+  //   return data;
+  // } 
+// }
 
 export const getAllDetails = async (token) => {
   const config = {
@@ -307,8 +309,9 @@ export const getAllDetails = async (token) => {
       "Content-Type": "application/json",
     },
   };
-  const { data } = await axiosAdminInstance.get(`/getAllDetails`, config);
+  const { data } = await axiosBookingInstance.get(`/getAllDetails`, config);
   if (data) {
+    console.log(data);
     return data;
   } 
 }

@@ -8,6 +8,7 @@ import PatientProfileLayout from "../../components/Doctor/PatientProfileLayout";
 
 const PatientProfile = () => {
   const [userAppointments, setUserAppointments] = useState([]);
+  const [prescriptions, setPrescriptions] = useState([]);
 
   const token = JSON.parse(localStorage.getItem("doctor")).token;
   const doctor = JSON.parse(localStorage.getItem("doctor"));
@@ -20,8 +21,10 @@ const PatientProfile = () => {
         token,
         id
       );
-      //   setUserDetails(userDetails);
+      // const { patientPrescription } = await getPatientPrescription(id)
+      // setPrescriptions(patientPrescription)
       setUserAppointments(userAppointments);
+      //   setUserDetails(userDetails);
     };
 
     fetchData();
@@ -134,9 +137,7 @@ const PatientProfile = () => {
             <div class="tab-pane fade" id="pres">
               <div class="text-right">
                 <Link to={`/add-prescription/${id}`}>
-                  <a class="add-new-btn">
-                    Add Prescription
-                  </a>
+                  <a class="add-new-btn">Add Prescription</a>
                 </Link>
               </div>
               <div class="card card-table mb-0">
@@ -152,43 +153,47 @@ const PatientProfile = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>14 Nov 2019</td>
-                          <td>Prescription 1</td>
-                          <td>
-                            <h2 class="table-avatar">
-                              <a
-                                href="doctor-profile.html"
-                                class="avatar avatar-sm mr-2"
-                              >
-                                <img
-                                  class="avatar-img rounded-circle"
-                                  src="assets/img/doctors/doctor-thumb-01.jpg"
-                                  alt="User Image"
-                                />
-                              </a>
-                              <a href="doctor-profile.html">
-                                Dr. Ruby Perrin <span>Dental</span>
-                              </a>
-                            </h2>
-                          </td>
-                          <td class="text-right">
-                            <div class="table-action">
-                              <a
-                                href="javascript:void(0);"
-                                class="btn btn-sm bg-primary-light"
-                              >
-                                <i class="fas fa-print"></i> Print
-                              </a>
-                              <a
-                                href="javascript:void(0);"
-                                class="btn btn-sm bg-info-light"
-                              >
-                                <i class="far fa-eye"></i> View
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
+                        {prescriptions?.map((prescription) => {
+                          return (
+                            <tr>
+                              <td>14 Nov 2019</td>
+                              <td>{prescription.medicineName}</td>
+                              <td>
+                                <h2 class="table-avatar">
+                                  <a
+                                    href="doctor-profile.html"
+                                    class="avatar avatar-sm mr-2"
+                                  >
+                                    <img
+                                      class="avatar-img rounded-circle"
+                                      src="assets/img/doctors/doctor-thumb-01.jpg"
+                                      alt="User Image"
+                                    />
+                                  </a>
+                                  <a href="doctor-profile.html">
+                                    Dr. Ruby Perrin <span>Dental</span>
+                                  </a>
+                                </h2>
+                              </td>
+                              <td class="text-right">
+                                <div class="table-action">
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="btn btn-sm bg-primary-light"
+                                  >
+                                    <i class="fas fa-print"></i> Print
+                                  </a>
+                                  <a
+                                    href="javascript:void(0);"
+                                    class="btn btn-sm bg-info-light"
+                                  >
+                                    <i class="far fa-eye"></i> View
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>

@@ -9,6 +9,7 @@ import {
 import Navbar from "../../components/Navbar";
 import SockJS from "sockjs-client/dist/sockjs";
 import { over } from "stompjs";
+import { Link } from "react-router-dom";
 // import Modal from "react-modal";
 
 const ViewAppointments = () => {
@@ -19,6 +20,13 @@ const ViewAppointments = () => {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
   const [subscription, setSubscription] = useState(null);
+  // const [prescriptions, setPrescriptions] = useState([]);
+
+  const prescriptions = [{
+    date: '04 Aug 2023',
+    id: '123456',
+    medicineName: 'Dolo'
+  }]
 
   const token = JSON.parse(localStorage.getItem("user")).token;
   const userId = JSON.parse(localStorage.getItem("user")).userExists.id;
@@ -36,7 +44,7 @@ const ViewAppointments = () => {
 
   //   const onConnect = () => {
   //     setConnected(true);
-      
+
   //     const subscription = stompClient.subscribe(
   //       "/videocall/" + userId.toString(),
   //       onMessageRecive
@@ -83,8 +91,6 @@ const ViewAppointments = () => {
         onMessageRecive
       );
       console.log(subscription);
-
-   
     }
   });
   const onMessageRecive = (payload) => {
@@ -114,6 +120,8 @@ const ViewAppointments = () => {
     console.log(userId);
     const data = await getUserAppointments(token, userId);
     setAppointments(data.appointmentsDetails);
+    // const prescriptions = await getAllPrescriptions(userId)
+    // setPrescriptions(prescriptions)
   };
 
   useEffect(() => {
@@ -322,7 +330,8 @@ const ViewAppointments = () => {
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-7 col-lg-8 col-xl-9">
+            <div class="col-md-7 col-lg-8 col-xl-12">
+              {/* <div class="col-md-7 col-lg-8 col-xl-9"> */}
               <div class="card">
                 <div class="card-body pt-0">
                   <nav class="user-tabs mb-4">
@@ -383,13 +392,10 @@ const ViewAppointments = () => {
                                       <tr>
                                         <td>
                                           <h2 class="table-avatar">
-                                            <a
-                                              href="doctor-profile.html"
-                                              class="avatar avatar-sm mr-2"
-                                            >
+                                            <a class="avatar avatar-sm mr-2">
                                               {/* ... (Avatar image) */}
                                             </a>
-                                            <a href="doctor-profile.html">
+                                            <a>
                                               Dr. {appointment.doctorInfo}
                                               {/* <span>Dental</span> */}
                                             </a>
@@ -479,43 +485,49 @@ const ViewAppointments = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr>
-                                  <td>14 Nov 2019</td>
-                                  <td>Prescription 1</td>
-                                  <td>
-                                    <h2 class="table-avatar">
-                                      <a
-                                        href="doctor-profile.html"
-                                        class="avatar avatar-sm mr-2"
-                                      >
-                                        <img
-                                          class="avatar-img rounded-circle"
-                                          src="assets/img/doctors/doctor-thumb-01.jpg"
-                                          alt="User Image"
-                                        />
-                                      </a>
-                                      <a href="doctor-profile.html">
-                                        Dr. Ruby Perrin <span>Dental</span>
-                                      </a>
-                                    </h2>
-                                  </td>
-                                  <td class="text-right">
-                                    <div class="table-action">
-                                      <a
-                                        href="javascript:void(0);"
-                                        class="btn btn-sm bg-primary-light"
-                                      >
-                                        <i class="fas fa-print"></i> Print
-                                      </a>
-                                      <a
-                                        href="javascript:void(0);"
-                                        class="btn btn-sm bg-info-light"
-                                      >
-                                        <i class="far fa-eye"></i> View
-                                      </a>
-                                    </div>
-                                  </td>
-                                </tr>
+                                {prescriptions.map((prescription) => {
+                                  return (
+                                    <tr>
+                                      <td>14 Nov 2019</td>
+                                      <td>{prescription.medicineName}</td>
+                                      <td>
+                                        <h2 class="table-avatar">
+                                          <Link
+                                            to={`/view-single-prescription/${prescription.id}`}
+                                          >
+                                            <a class="avatar avatar-sm mr-2">
+                                              <img
+                                                class="avatar-img rounded-circle"
+                                                src="assets/img/doctors/doctor-thumb-01.jpg"
+                                                alt="User Image"
+                                              />
+                                            </a>
+                                            <a>
+                                              Dr. Ruby Perrin{" "}
+                                              <span>Dental</span>
+                                            </a>
+                                          </Link>
+                                        </h2>
+                                      </td>
+                                      <td class="text-right">
+                                        <div class="table-action">
+                                          <a
+                                            href="javascript:void(0);"
+                                            class="btn btn-sm bg-primary-light"
+                                          >
+                                            <i class="fas fa-print"></i> Print
+                                          </a>
+                                          <a
+                                            href="javascript:void(0);"
+                                            class="btn btn-sm bg-info-light"
+                                          >
+                                            <i class="far fa-eye"></i> View
+                                          </a>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
                               </tbody>
                             </table>
                           </div>

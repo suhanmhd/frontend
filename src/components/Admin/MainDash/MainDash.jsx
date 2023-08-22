@@ -22,19 +22,20 @@ const MainDash = () => {
   const token = JSON.parse(localStorage.getItem("admin")).token;
 
   const fetchData = async () => {
-    const allPaidAppointments = await getPaidAppointments(token);
+    // const allPaidAppointments = await getPaidAppointments(token);
     const allDetails = await getAllDetails(token);
-    setPaidAppointments(allPaidAppointments.paidAppointments);
+    // console.log(allPaidAppointments);
+    // setPaidAppointments(allPaidAppointments.paidAppointments);
     setDetails(allDetails);
   };
   console.log(details);
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
-  const createdAtDates = details?.createdAtDates;
-  const totalAmounts = details?.totalAmounts;
+  const createdAtDates = details?.createdDate;
+  const totalAmounts = details?.totalAmount;
 
   const barData = {
     labels: createdAtDates?.map((date) =>

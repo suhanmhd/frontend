@@ -23,7 +23,7 @@ const AllAppoinments = () => {
     try {
       console.log(status);
       const response = await updateStatus(
-        { appointmentId: row._id, status },
+        { appointmentId: row.id, status },
         token
       );
       console.log(response);

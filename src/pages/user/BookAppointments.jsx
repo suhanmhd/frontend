@@ -16,6 +16,8 @@ const BookAppointments = () => {
     return storedData ? JSON.parse(storedData) : [];
   });
 
+  console.log(appointmentDetail,"== fetched appointment data")
+
   const [doctor, setDoctor] = useState(null);
 
   const [date, setDate] = useState(null);
@@ -29,6 +31,7 @@ const BookAppointments = () => {
     async function fetchData() {
       const data = await getDoctorAvailableSlots(token, docId);
       const docData = await getSingleDoctor(docId);
+      console.log(data,"= fetched")
       setAppointmentDetail(data.slot);
       setDoctor(docData.doctorDetails);
     }
@@ -169,7 +172,8 @@ const BookAppointments = () => {
                         <div class="time-slot">
                           <AvailableSlots
                             date={
-                              date ? date : appointmentDetail?.slotList[0]?.date
+                              // date ? date : appointmentDetail?.slotList[0]?.date
+                              date && date 
                             }
                             scheduledTimeSlots={appointmentDetail?.slotList}
                             selectedSlot={selectedSlot}

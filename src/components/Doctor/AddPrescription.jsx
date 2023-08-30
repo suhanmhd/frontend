@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PatientProfileLayout from "./PatientProfileLayout";
-import { addMedicinePrescription } from "../../axios/services/DoctorServices";
+import { addMedicinePrescription, addPrescription } from "../../axios/services/DoctorServices";
 import { useParams } from "react-router-dom";
 
 const AddPrescription = () => {
@@ -95,6 +95,7 @@ const AddPrescription = () => {
 
   const docId = JSON.parse(localStorage.getItem("doctor")).doctorExists.id;
   const userId = useParams().id
+  const token = JSON.parse(localStorage.getItem('doctor')).token
 
   const onInputChange = (e) => {
     let { name, value } = e.target;
@@ -117,13 +118,13 @@ const AddPrescription = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = { ...formValue, time: timing };
+    const formData = { ...formValue,docId, userId, time: timing };
     console.log({docId, userId, formData});
-    // const response = await addPrescription({docId, userId, formData})
-    // if(response.status){
-    //   setFormValue(initialState)
-    // setTiming([])
-    // }
+    const response = await addPrescription(formData,token)
+    if(response){
+      setFormValue(initialState)
+    setTiming([])
+    }
   };
 
   return (

@@ -273,3 +273,38 @@ if(data.status){
           return data
         }
       }
+
+      export const getPatientPrescription = async(token, userId)=>{
+
+        const config = {
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axiosDoctorInstance.get(`/getPatientPrecsription/${userId}`,config)
+        if(data){
+          return data
+        }
+
+      }
+
+
+export const addPrescription = async(formData,token)=>{
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  };
+    console.log(formData);
+  const { data } = await axiosDoctorInstance.post(`/prescription`,formData,config)
+  if(data){
+    return data
+  }
+
+
+
+}

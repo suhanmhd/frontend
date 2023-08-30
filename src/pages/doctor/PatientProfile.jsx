@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
+  getPatientPrescription,
   getUserAppointmentDetailsToDoctor,
   getUserById,
 } from "../../axios/services/DoctorServices";
@@ -21,8 +22,8 @@ const PatientProfile = () => {
         token,
         id
       );
-      // const { patientPrescription } = await getPatientPrescription(id)
-      // setPrescriptions(patientPrescription)
+      const { patientPrescription } = await getPatientPrescription( token,id);
+      setPrescriptions(patientPrescription)
       setUserAppointments(userAppointments);
       //   setUserDetails(userDetails);
     };

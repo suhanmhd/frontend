@@ -438,7 +438,7 @@ const Messenger = () => {
 
   useEffect(() => {
     const connect = () => {
-      sock.current = new SockJS("http://localhost:8088/ws");
+      sock.current = new SockJS("http://13.232.146.13:8088/ws");
       const temp = over(sock.current);
       setStompClient(temp);
       temp.connect({}, onConnect, onErr);

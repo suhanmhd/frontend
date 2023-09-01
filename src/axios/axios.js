@@ -23,77 +23,77 @@ import axios from 'axios';
 
 
 
-// export const axiosDoctorInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/user/doctor', 
-// });
-
-// export const axiosAdminInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/user/admin',
-// });
-
-
-// export const axiosAuthInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/auth',
-// });
-
-
-// export const axiosUserInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/user', 
-// });
-
-
-
-// export const axiosBookingInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/appointment', 
-// });
-
-// export const axiosMessageInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/appointment',
-// });
-
-// export const axiosConversationInstance = axios.create({
-//   baseURL: 'http://13.232.146.13/appointment',
-// });
-
-
-
-
-
-
-
-
-
-
 export const axiosDoctorInstance = axios.create({
-  baseURL: 'http://localhost:9090/user/doctor', 
+  baseURL: 'https://mediconnects.online/user/doctor', 
 });
 
 export const axiosAdminInstance = axios.create({
-  baseURL: 'http://localhost:9090/user/admin',
+  baseURL: 'https://mediconnects.online/user/admin',
 });
 
 
 export const axiosAuthInstance = axios.create({
-  baseURL: 'http://localhost:9090/auth',
+  baseURL: 'https://mediconnects.online/auth',
 });
 
 
 export const axiosUserInstance = axios.create({
-  baseURL: 'http://localhost:9090/user', 
+  baseURL: 'https://mediconnects.online/user', 
 });
 
 
 
 export const axiosBookingInstance = axios.create({
-  baseURL: 'http://localhost:9090/appointment', 
+  baseURL: 'https://mediconnects.online/appointment', 
 });
 
 export const axiosMessageInstance = axios.create({
-  baseURL: 'http://localhost:9090/appointment',
+  baseURL: 'https://mediconnects.online/appointment',
 });
 
 export const axiosConversationInstance = axios.create({
-  baseURL: 'http://localhost:9090/appointment',
+  baseURL: 'https://mediconnects.online/appointment',
 });
+
+
+
+
+
+
+
+
+
+
+// export const axiosDoctorInstance = axios.create({
+//   baseURL: 'http://localhost:9090/user/doctor', 
+// });
+
+// export const axiosAdminInstance = axios.create({
+//   baseURL: 'http://localhost:9090/user/admin',
+// });
+
+
+// export const axiosAuthInstance = axios.create({
+//   baseURL: 'http://localhost:9090/auth',
+// });
+
+
+// export const axiosUserInstance = axios.create({
+//   baseURL: 'http://localhost:9090/user', 
+// });
+
+
+
+// export const axiosBookingInstance = axios.create({
+//   baseURL: 'http://localhost:9090/appointment', 
+// });
+
+// export const axiosMessageInstance = axios.create({
+//   baseURL: 'http://localhost:9090/appointment',
+// });
+
+// export const axiosConversationInstance = axios.create({
+//   baseURL: 'http://localhost:9090/appointment',
+// });
 
 

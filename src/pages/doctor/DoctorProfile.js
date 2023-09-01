@@ -52,7 +52,6 @@ const DoctorProfile = () => {
 
   const {
     firstname,
-    
     lastname,
     email,
     place,

@@ -5,6 +5,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Hidden } from "@mui/material";
 import { getSingleDoctor } from "../../axios/services/DoctorServices";
 
+
+
 const BookAppointments = () => {
   const navigate = useNavigate();
   const { docId } = useParams();
@@ -77,6 +79,7 @@ const BookAppointments = () => {
   };
 
   const handleBookingSlot = () => {
+    
     if (selectedSlot && date) {
       const BookingDetails = {
         slotId: selectedSlot.slotId,
@@ -193,6 +196,7 @@ const BookAppointments = () => {
                     Book Appointment
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
@@ -220,11 +224,14 @@ function AvailableSlots({
   };
 
   useEffect(() => {
-    const filterdData = scheduledTimeSlots?.filter(
-      (slot) => slot.date === date
-    );
-    // console.log(filterdData[0]?.slots)
-    setTimeSlots(filterdData[0]?.slots);
+    if (scheduledTimeSlots) {
+      const filterdData = scheduledTimeSlots.filter((slot) => slot?.date === date);
+        if (filterdData.length > 0) {
+        setTimeSlots(filterdData[0]?.slots);
+      } else{
+        setTimeSlots([])
+      }
+    }
   }, [date]);
 
   const groupedTimeSlots = [];

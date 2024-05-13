@@ -210,7 +210,7 @@ const MessageRequests = () => {
 
   useEffect(() => {
     const connect = () => {
-      sock.current = new SockJS("https://mediconnects.online/ws");
+      sock.current = new SockJS("https://chat.mediconnects.online/ws");
       const temp = over(sock.current);
       setStompClient(temp);
       temp.connect({}, onConnect, onErr);

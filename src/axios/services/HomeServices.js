@@ -21,6 +21,7 @@ export const userLogin = createAsyncThunk(
       navigate("/");
       return response.data;
     } catch (err) {
+      toast.error(err.response.data);
       return rejectWithValue(err.response.data);
     }
   }
@@ -98,10 +99,12 @@ export const adminLogin = createAsyncThunk(
   async ({ formValue, navigate, toast }, { rejectWithValue }) => {
     try {
       const response = await adminSignIn(formValue);
-      toast.success("Admin Login Successful");
-      navigate("/adminHome");
-      console.log(response.data);
-      return response.data;
+      if (response) {
+        toast.success("Admin Login Successful");
+        navigate("/adminHome");
+        console.log(response.data);
+        return response.data;
+      }
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -139,6 +142,7 @@ export const doctorLogin = createAsyncThunk(
       return response.data;
     } catch (err) {
       toast.error(err.response.data);
+
       return rejectWithValue(err.response.data);
     }
   }
@@ -190,7 +194,11 @@ export const updateUserProfile = async (formData, token) => {
       "Content-Type": "application/json",
     },
   };
-  const { data } = await axiosUserInstance.post( `/updateUserProfile`, formData,config);
+  const { data } = await axiosUserInstance.post(
+    `/updateUserProfile`,
+    formData,
+    config
+  );
   if (data) {
     return data;
   }
@@ -216,7 +224,6 @@ export const getUserAppointments = async (token, userId) => {
   }
 };
 
-
 export const getDoctorAvailableSlots = async (token, docId) => {
   const config = {
     headers: {
@@ -237,7 +244,6 @@ export const getDoctorAvailableSlots = async (token, docId) => {
   }
 };
 
-
 export const cancelAppointment = async (cancellationData, token) => {
   console.log("inside home services userid");
   const config = {
@@ -256,8 +262,6 @@ export const cancelAppointment = async (cancellationData, token) => {
     return data;
   }
 };
-
-
 
 export const placeBooking = async (token, bookingData) => {
   console.log("in booking");
@@ -280,7 +284,6 @@ export const placeBooking = async (token, bookingData) => {
     return data;
   }
 };
-
 
 export const orderVerifyPayment = async (token, res, order) => {
   console.log("kjnkjn");
@@ -307,27 +310,30 @@ export const orderVerifyPayment = async (token, res, order) => {
 };
 
 export const getAllDoctors = async (searchTerm) => {
-  const { data } = await axiosUserInstance.get(`/getAllDoctors?query=${searchTerm ? `${searchTerm}` : ''}`);
+  const { data } = await axiosUserInstance.get(
+    `/getAllDoctors?query=${searchTerm ? `${searchTerm}` : ""}`
+  );
   if (data) {
     return data;
   }
 };
 
-
-
-export const addRatingAndReview = async(reviewData,token)=>{
-  console.log(reviewData,token);
+export const addRatingAndReview = async (reviewData, token) => {
+  console.log(reviewData, token);
   const config = {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-  }
-  const { data } = await axiosUserInstance.post( `/addReview`, reviewData,config);
-  if(data){
+  };
+  const { data } = await axiosUserInstance.post(
+    `/addReview`,
+    reviewData,
+    config
+  );
+  if (data) {
     console.log(data);
     return data;
   }
-
-}
+};

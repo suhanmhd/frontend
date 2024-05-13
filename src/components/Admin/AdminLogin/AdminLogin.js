@@ -121,7 +121,7 @@ import {
   MDBSpinner,
   MDBValidationItem,
 } from "mdb-react-ui-kit";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { adminLogin } from "../../../axios/services/HomeServices";
@@ -146,8 +146,12 @@ const AdminLogin = () => {
     e.preventDefault();
     if (username && password) {
       dispatch(adminLogin({ formValue, navigate, toast }));
+      console.log("de")
+      navigate("/adminHome")
+      console.log("der")
     }
   };
+  
   const onInputChange = (e) => {
     let { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
